@@ -1,7 +1,8 @@
 #'Report config: generate template
 #' @param df a dataframe as retrieved by import_data_haridwar()
 #' @param temporal_aggregation Set the following values if data should be
-#' summarised to hourly ("hour"), daily ("day) or monthly ("month") median values
+#' summarised to e.g. 10 minutes (600) or hourly (3600), daily ("day") 
+#' or monthly ("month") median values
 #' (default: "raw")
 #' @param output_timezone into which timezone should the data be converted for
 #' the report? (default: "UTC")
@@ -114,7 +115,11 @@ report_txt_to_config <- function(config_txt = "report_config.txt") {
   y <- lapply(y, FUN = function(x) {
     gsub(pattern = "'",replacement = "", unlist(strsplit(x,split = "'\\s")))
   })
-
+  
+  if(!is.na(as.numeric(y$report_aggregation))) {
+    y$report_aggregation <- as.numeric(y$report_aggregation)
+  }
+  
   return(y)
 
 }

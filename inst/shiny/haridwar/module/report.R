@@ -117,10 +117,18 @@ server_report <- function(...) {
 
 
       #conf_list <- aquanes.report::report_config_template()
-
+      agg_para <- switch(input$report_aggregation, 
+						"raw" = "raw", 
+						"10min" = 600, 
+						"hour" = 3600,
+						"day" = "day", 
+						"month" = "month")	  
+	  
+	  
+	  
       # Set up config parameters & save in text file
       conf_list <- list(report_sitenames = input$report_sitenames,
-                        report_aggregation = input$report_aggregation,
+                        report_aggregation = agg_para,
                         report_parameters_online = input$report_parameters_online,
                         report_parameters_offline = input$report_parameters_offline,
                         report_daterange = input$report_daterange,
