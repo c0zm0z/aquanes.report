@@ -31,7 +31,8 @@ server_timeSeries <- function(...) {
   # })
 
   ts_data1 <- reactive({
-
+   
+    req(input$parameter1)
 
     date_idx <- as.Date(ts_tz()[,"DateTime"]) >= input$daterange[1] & as.Date(ts_tz()[,"DateTime"]) <= input$daterange[2]
     site_idx <- ts_tz()[,"SiteName"] %in% input$sitename
@@ -56,6 +57,8 @@ server_timeSeries <- function(...) {
   })
 
   ts_data2 <- reactive({
+    
+    req(input$parameter2)
 
     date_idx <- as.Date(ts_tz()[,"DateTime"]) >= input$daterange[1] & as.Date(ts_tz()[,"DateTime"]) <= input$daterange[2]
     site_idx <- ts_tz()[,"SiteName"] %in% input$sitename
@@ -95,14 +98,11 @@ ts_data1_xts <- reactive({
 
 
   output$dygraph1 <- renderDygraph({
+    
     dygraph(data = ts_data1_xts(),
             group = "dy_group",
            # main = unique(ts_data()$LocationName),
                     ylab = "Parameter value") %>%
-             # dySeries("V1",
-             #          label = sprintf("%s (%s)",
-             #                          unique(ts_data()$ParameterName),
-             #                          unique(ts_data()$ParameterUnit))) %>%
              dyLegend(show = "always",
                       hideOnMouseOut = FALSE,
                       width = 900) %>%
@@ -130,14 +130,11 @@ ts_data1_xts <- reactive({
 
 
   output$dygraph2 <- renderDygraph({
+    
     dygraph(data = ts_data2_xts(),
             group = "dy_group",
             # main = unique(ts_data()$LocationName),
             ylab = "Parameter value") %>%
-      # dySeries("V1",
-      #          label = sprintf("%s (%s)",
-      #                          unique(ts_data()$ParameterName),
-      #                          unique(ts_data()$ParameterUnit))) %>%
       dyLegend(show = "always",
                hideOnMouseOut = FALSE,
                width = 900) %>%
@@ -163,9 +160,22 @@ ts_data1_xts <- reactive({
       tempReport <- file.path(tempdir(), "dygraph.Rmd")
       file.copy("report/dygraph.Rmd", tempReport, overwrite = TRUE)
 
+      
+      if (all(is.null(input$parameter1))) {
+        myData1 <- NA
+      } else {
+        myData1 <- ts_data1_xts()
+      }
+      
+      if (all(is.null(input$parameter2))) {
+        myData2 <- NA
+      } else {
+        myData2 <- ts_data2_xts()
+      }
+
       # Set up parameters to pass to Rmd document
-      params <- list(myData1 = ts_data1_xts(),
-                     myData2 = ts_data2_xts(),
+      params <- list(myData1 = myData1,
+                     myData2 = myData2,
                      myDateRange = input$daterange,
                      myTimezone = input$timezone)
 
