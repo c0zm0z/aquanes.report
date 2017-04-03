@@ -108,6 +108,7 @@ ts_data1_xts <- reactive({
                       width = 900) %>%
              dyRangeSelector(dateWindow = input$daterange) %>%
              dyOptions(useDataTimezone = TRUE,
+                       retainDateWindow = TRUE,
                        drawPoints = TRUE,
                        pointSize = 2) #%>%
              # dyEvent(x = ts_errors()$DateTime,
@@ -142,6 +143,7 @@ ts_data1_xts <- reactive({
                width = 900) %>%
       dyRangeSelector(dateWindow = input$daterange) %>%
       dyOptions(useDataTimezone = TRUE,
+                retainDateWindow = TRUE,
                 drawPoints = TRUE,
                 pointSize = 2) #%>%
     # dyEvent(x = ts_errors()$DateTime,
