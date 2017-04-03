@@ -45,9 +45,11 @@ server_timeSeries <- function(...) {
                                         "ParameterUnit",
                                         "ParameterValue")] %>%
       dplyr::filter_("!is.na(ParameterValue)") %>%
-      dplyr::mutate_("SiteName_ParaName_Unit" = "sprintf('%s: %s (%s)', SiteName, ParameterName, ParameterUnit)")  %>%
+      dplyr::mutate_("SiteName_ParaName_Unit" = "ifelse(test = ParameterName == 'Redox potential' & SiteName == 'Tank water', 
+                     sprintf('%s: %s %d (%s)', SiteName, ParameterName, measurementID, ParameterUnit), 
+                     sprintf('%s: %s (%s)', SiteName, ParameterName, ParameterUnit))") %>%
       dplyr::select_("DateTime",
-                     "measurementID",
+                     #"measurementID",
                      "SiteName_ParaName_Unit",
                      "ParameterValue") %>%
       tidyr::spread_(key_col = "SiteName_ParaName_Unit",
