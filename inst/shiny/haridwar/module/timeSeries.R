@@ -31,7 +31,7 @@ server_timeSeries <- function(...) {
   # })
 
   ts_data1 <- reactive({
-   
+
     req(input$parameter1)
 
     date_idx <- as.Date(ts_tz()[,"DateTime"]) >= input$daterange[1] & as.Date(ts_tz()[,"DateTime"]) <= input$daterange[2]
@@ -39,19 +39,9 @@ server_timeSeries <- function(...) {
     para_idx <- ts_tz()[,"ParameterName"] %in%  input$parameter1
     row_idx <- date_idx & site_idx & para_idx
     ts_tz()[row_idx, c("DateTime",
-                                        "measurementID",
-                                        "SiteName",
-                                        "ParameterName",
-                                        "ParameterUnit",
-                                        "ParameterValue")] %>%
-      dplyr::filter_("!is.na(ParameterValue)") %>%
-      dplyr::mutate_("SiteName_ParaName_Unit" = "ifelse(test = ParameterName == 'Redox potential' & SiteName == 'Tank water', 
-                     sprintf('%s: %s %d (%s)', SiteName, ParameterName, measurementID, ParameterUnit), 
-                     sprintf('%s: %s (%s)', SiteName, ParameterName, ParameterUnit))") %>%
-      dplyr::select_("DateTime",
-                     #"measurementID",
-                     "SiteName_ParaName_Unit",
-                     "ParameterValue") %>%
+                       "measurementID",
+                       "SiteName_ParaName_Unit",
+                       "ParameterValue")] %>%
       tidyr::spread_(key_col = "SiteName_ParaName_Unit",
                      value_col = "ParameterValue")
 
@@ -59,7 +49,7 @@ server_timeSeries <- function(...) {
   })
 
   ts_data2 <- reactive({
-    
+
     req(input$parameter2)
 
     date_idx <- as.Date(ts_tz()[,"DateTime"]) >= input$daterange[1] & as.Date(ts_tz()[,"DateTime"]) <= input$daterange[2]
@@ -67,17 +57,9 @@ server_timeSeries <- function(...) {
     para_idx <- ts_tz()[,"ParameterName"] %in%  input$parameter2
     row_idx <- date_idx & site_idx & para_idx
     ts_tz()[row_idx, c("DateTime",
-                                  "measurementID",
-                                  "SiteName",
-                                  "ParameterName",
-                                  "ParameterUnit",
-                                  "ParameterValue")] %>%
-      dplyr::filter_("!is.na(ParameterValue)") %>%
-      dplyr::mutate_("SiteName_ParaName_Unit" = "sprintf('%s: %s (%s)', SiteName, ParameterName, ParameterUnit)")  %>%
-      dplyr::select_("DateTime",
-                     "measurementID",
-                     "SiteName_ParaName_Unit",
-                     "ParameterValue") %>%
+                       "measurementID",
+                       "SiteName_ParaName_Unit",
+                       "ParameterValue")] %>%
       tidyr::spread_(key_col = "SiteName_ParaName_Unit",
                      value_col = "ParameterValue")
 
@@ -100,7 +82,7 @@ ts_data1_xts <- reactive({
 
 
   output$dygraph1 <- renderDygraph({
-    
+
     dygraph(data = ts_data1_xts(),
             group = "dy_group",
            # main = unique(ts_data()$LocationName),
@@ -132,7 +114,7 @@ ts_data1_xts <- reactive({
 
 
   output$dygraph2 <- renderDygraph({
-    
+
     dygraph(data = ts_data2_xts(),
             group = "dy_group",
             # main = unique(ts_data()$LocationName),
@@ -162,13 +144,13 @@ ts_data1_xts <- reactive({
       tempReport <- file.path(tempdir(), "dygraph.Rmd")
       file.copy("report/dygraph.Rmd", tempReport, overwrite = TRUE)
 
-      
+
       if (all(is.null(input$parameter1))) {
         myData1 <- NA
       } else {
         myData1 <- ts_data1_xts()
       }
-      
+
       if (all(is.null(input$parameter2))) {
         myData2 <- NA
       } else {
@@ -195,8 +177,8 @@ ts_data1_xts <- reactive({
 
     export_df <- reactive({
       switch(input$dataset,
-             "data_plot1" = ts_data1_xts(),
-             "data_plot2" = ts_data2_xts())})
+             "data_plot1" = ts_data1(),
+             "data_plot2" = ts_data2())})
 
 
     output$downloadData <- downloadHandler(
@@ -205,7 +187,7 @@ ts_data1_xts <- reactive({
               sep = "")
       },
       content = function(file) {
-        write.csv(ggplot2::fortify(export_df()), file)
+        write.csv(ggplot2::fortify(export_df()), file, row.names = FALSE)
       }
     )
 

@@ -149,7 +149,7 @@ import_sheets <- function(xlsPath,
                           sheet_sites = "Sites",
                           sheet_location = "Location",
                           col_rawData_pattern = "raw",
-                          col_ignore_pattern = "mean|empty|X_",
+                          col_ignore_pattern = "mean|empty|X_|RX",
                           ### skip: rows to skip for each sheet
                           skip = 10,
                           ### tz_org:

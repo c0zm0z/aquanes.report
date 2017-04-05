@@ -6,7 +6,7 @@
 \usage{
 import_sheets(xlsPath, sheets_analytics, sheet_parameters = "Parameters",
   sheet_sites = "Sites", sheet_location = "Location",
-  col_rawData_pattern = "raw", col_ignore_pattern = "mean|empty|X_",
+  col_rawData_pattern = "raw", col_ignore_pattern = "mean|empty|X_|RX",
   skip = 10, tz_org = NULL, tz_export = "UTC", dbg = TRUE)
 }
 \arguments{

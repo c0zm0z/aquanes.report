@@ -46,9 +46,9 @@ server_report <- function(...) {
 
 
   report_agg <- reactive({
-    
-    withProgress(message = sprintf("1. Loading %s data", input$report_aggregation), 
-                 value = 0, { 
+
+    withProgress(message = sprintf("1. Loading %s data", input$report_aggregation),
+                 value = 0, {
 
     object_name <- sprintf("haridwar_%s_list", input$report_aggregation)
 
@@ -56,21 +56,21 @@ server_report <- function(...) {
       dat <- readRDS(sprintf("data/%s.Rds", object_name))
       assign(x = object_name,
              value = dat)
-     
+
     }
     incProgress(amount = 1,message = "Completed!")
-  
+
     })
    get(object_name)
   })
 
 
   report_tz <- reactive({
-    
-    # withProgress(message = sprintf("Changing time zone to %s", 
-    #                                 input$report_timezone), 
+
+    # withProgress(message = sprintf("Changing time zone to %s",
+    #                                 input$report_timezone),
     #              value = 0.3)
-    # 
+    #
     aquanes.report::change_timezone(df = report_agg(),
                                     tz = input$report_timezone)
 
@@ -87,20 +87,11 @@ server_report <- function(...) {
     row_idx <- date_idx & site_idx & para_idx
     report_tz()[row_idx, c("DateTime",
                            "measurementID",
-                           "SiteName",
-                           "ParameterName",
-                           "ParameterUnit",
+                           "SiteName_ParaName_Unit",
                            "ParameterValue",
                            "DataType")] %>%
-      dplyr::filter_("!is.na(ParameterValue)") %>%
-      # dplyr::mutate_("ParaName_Unit" = "sprintf('%s (%s)', ParameterName, ParameterUnit)")  %>%
-      dplyr::select_("DateTime",
-                     "measurementID",
-                     "SiteName",
-                     "ParameterName",
-                     "ParameterUnit",
-                     "ParameterValue",
-                     "DataType")
+      tidyr::spread_(key_col = "SiteName_ParaName_Unit",
+                     value_col = "ParameterValue")
 
   })
 
@@ -117,15 +108,15 @@ server_report <- function(...) {
 
 
       #conf_list <- aquanes.report::report_config_template()
-      agg_para <- switch(input$report_aggregation, 
-						"raw" = "raw", 
-						"10min" = 600, 
+      agg_para <- switch(input$report_aggregation,
+						"raw" = "raw",
+						"10min" = 600,
 						"hour" = 3600,
-						"day" = "day", 
-						"month" = "month")	  
-	  
-	  
-	  
+						"day" = "day",
+						"month" = "month")
+
+
+
       # Set up config parameters & save in text file
       conf_list <- list(report_sitenames = input$report_sitenames,
                         report_aggregation = agg_para,

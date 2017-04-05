@@ -127,7 +127,7 @@ sites_meta <- analytics_4014 %>%
 
 
 operation_para_names <- utils::read.csv(file = operation_meta_path,
-                                        stringsAsFactors = FALSE ) 
+                                        stringsAsFactors = FALSE )
 
 operation_para_names <- operation_para_names %>%
 						dplyr::select_(.dots = dplyr::setdiff(names(operation_para_names),"Comments")) %>%
@@ -145,7 +145,13 @@ operation_list <- operation_list %>%
 
 
 
-haridwar_raw_list <- plyr::rbind.fill(operation_list, analytics_4014)
+haridwar_raw_list <- plyr::rbind.fill(operation_list, analytics_4014) %>%
+                     dplyr::filter_("!is.na(ParameterValue)") %>%
+                     dplyr::mutate_("SiteName_ParaName_Unit" = "ifelse(test = ParameterName == 'Redox potential' & SiteName == 'Tank water',
+                                     sprintf('%s: %s %d (%s)', SiteName, ParameterName, measurementID, ParameterUnit),
+                                     sprintf('%s: %s (%s)', SiteName, ParameterName, ParameterUnit))",
+                                    "measurementID" = "ifelse(test = ParameterName == 'Redox potential' & SiteName == 'Tank water',
+                                     1, measurementID)")
 
 return(haridwar_raw_list)
 }

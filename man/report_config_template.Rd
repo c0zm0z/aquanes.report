@@ -11,7 +11,8 @@ report_config_template(df = NULL, temporal_aggregation = "raw",
 \item{df}{a dataframe as retrieved by import_data_haridwar()}
 
 \item{temporal_aggregation}{Set the following values if data should be
-summarised to hourly ("hour"), daily ("day) or monthly ("month") median values
+summarised to e.g. 10 minutes (600) or hourly (3600), daily ("day") 
+or monthly ("month") median values
 (default: "raw")}
 
 \item{output_timezone}{into which timezone should the data be converted for
