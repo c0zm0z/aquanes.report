@@ -87,12 +87,11 @@ server_report <- function(...) {
     row_idx <- date_idx & site_idx & para_idx
     report_tz()[row_idx, c("DateTime",
                            "measurementID",
-                           "SiteName_ParaName_Unit",
+                           "SiteName",
+                           "ParameterName",
+                           "ParameterUnit",
                            "ParameterValue",
-                           "DataType")] %>%
-      tidyr::spread_(key_col = "SiteName_ParaName_Unit",
-                     value_col = "ParameterValue")
-
+                           "DataType")]
   })
 
 
