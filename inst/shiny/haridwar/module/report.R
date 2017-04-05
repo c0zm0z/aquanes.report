@@ -204,11 +204,6 @@ server_report <- function(...) {
 
     content = function(file) {
 
-
-      if (input$report_format == "HTML") {
-        file.copy(from = create_report(), to =  file)
-      } else {
-
       tdir <- tempdir()
       tempReport <- file.path(tdir, "report.Rmd")
       file.copy(from = "report/report.Rmd",
@@ -246,7 +241,6 @@ server_report <- function(...) {
       file.copy(from = ofile,
                   to = file)
 
-      }
     }
   )
 }
