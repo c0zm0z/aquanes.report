@@ -92,7 +92,7 @@ ts_data1_xts <- reactive({
                       width = 900) %>%
              dyRangeSelector(dateWindow = input$daterange) %>%
              dyOptions(useDataTimezone = TRUE,
-                       retainDateWindow = TRUE,
+                       retainDateWindow = input$fix_daterange,
                        connectSeparatedPoints = TRUE,
                        drawPoints = TRUE,
                        pointSize = 2) #%>%
@@ -125,7 +125,7 @@ ts_data1_xts <- reactive({
                width = 900) %>%
       dyRangeSelector(dateWindow = input$daterange) %>%
       dyOptions(useDataTimezone = TRUE,
-                retainDateWindow = TRUE,
+                retainDateWindow = input$fix_daterange,
                 connectSeparatedPoints = TRUE,
                 drawPoints = TRUE,
                 pointSize = 2) #%>%
@@ -227,6 +227,7 @@ ui_timeSeries <- function(...) {
                      label = 'Date range input: yyyy-mm-dd',
                      start = "2016-09-05",
                      end = "2016-10-31"),
+      checkboxInput('fix_daterange', "Fix daterange", value = FALSE),
       selectInput("sitename", label = "Select a sampling point",
                   choices = unique(haridwar_10min_list$SiteName),
                   multiple = TRUE,
