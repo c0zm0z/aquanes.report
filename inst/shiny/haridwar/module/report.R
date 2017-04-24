@@ -21,7 +21,7 @@ ui_report <- function(...) {
                     selected = unique(haridwar_10min_list$SiteName)),
         h3("Select parameters"),
         selectInput("report_parameters_online", label = "Online",
-                    choices = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"]),
+                    choices = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[c(4,12,15,16:20,22:24)],
                     multiple = TRUE,
                     selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[16]),
         selectInput("report_parameters_offline", label = "Offline",
