@@ -1,4 +1,5 @@
 language: r
+dist: trusty
 sudo: required
 before_install:
   - sudo apt-get install libv8-dev
