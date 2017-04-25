@@ -24,4 +24,3 @@ Check possible "tz" arguments in column "TZ*" of table
 \url{https://en.wikipedia.org/wiki/List_of_tz_database_time_zones} for more
 details.
 }
-\keyword{internal}
