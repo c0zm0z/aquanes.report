@@ -4,3 +4,4 @@
 sites_info.csv
 .karte.R
 ^docs\.*
+_pkgdown.yaml
