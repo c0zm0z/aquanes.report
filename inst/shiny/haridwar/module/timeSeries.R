@@ -1,6 +1,7 @@
 server_timeSeries <- function(...) {
 
 
+
   ts_agg <- reactive({
 
     object_name <- sprintf("haridwar_%s_list", input$temporal_aggregation)
@@ -83,7 +84,8 @@ ts_data1_xts <- reactive({
 
   output$dygraph1 <- renderDygraph({
 
-    dygraph(data = ts_data1_xts(),
+
+    dy1 <- dygraph(data = ts_data1_xts(),
             group = "dy_group",
            # main = unique(ts_data()$LocationName),
                     ylab = "Parameter value") %>%
@@ -95,10 +97,15 @@ ts_data1_xts <- reactive({
                        retainDateWindow = input$fix_daterange,
                        connectSeparatedPoints = TRUE,
                        drawPoints = TRUE,
-                       pointSize = 2) #%>%
-             # dyEvent(x = ts_errors()$DateTime,
-             #         label = ts_errors()$ParameterValue,
-             #         labelLoc = "bottom")
+                       pointSize = 2)
+
+  if (input$add_thresholds == TRUE) {
+    aquanes.report::dygraph_add_limits(dygraph = dy1,
+                                       limits = thresholds[thresholds$ParameterName %in% input$parameter1,])
+  } else {
+    dy1
+  }
+
   })
 
 
@@ -116,7 +123,7 @@ ts_data1_xts <- reactive({
 
   output$dygraph2 <- renderDygraph({
 
-    dygraph(data = ts_data2_xts(),
+    dy2 <- dygraph(data = ts_data2_xts(),
             group = "dy_group",
             # main = unique(ts_data()$LocationName),
             ylab = "Parameter value") %>%
@@ -128,10 +135,14 @@ ts_data1_xts <- reactive({
                 retainDateWindow = input$fix_daterange,
                 connectSeparatedPoints = TRUE,
                 drawPoints = TRUE,
-                pointSize = 2) #%>%
-    # dyEvent(x = ts_errors()$DateTime,
-    #         label = ts_errors()$ParameterValue,
-    #         labelLoc = "bottom")
+                pointSize = 2)
+
+    if (input$add_thresholds == TRUE) {
+    aquanes.report::dygraph_add_limits(dygraph = dy2,
+               limits = thresholds[thresholds$ParameterName %in% input$parameter2,])
+    } else {
+      dy2
+    }
   })
 
 
@@ -162,6 +173,9 @@ ts_data1_xts <- reactive({
       # Set up parameters to pass to Rmd document
       params <- list(myData1 = myData1,
                      myData2 = myData2,
+                     para1 = input$parameter1,
+                     para2 = input$parameter2,
+                     add_thresholds = input$add_thresholds,
                      myDateRange = input$daterange,
                      myTimezone = input$timezone)
 
@@ -236,12 +250,13 @@ ui_timeSeries <- function(...) {
                   choices = list(Online =  unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[c(4,12,15,16:20,22:24)],
                                  Offline = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])),
                   multiple = TRUE,
-                  selected = unique(haridwar_10min_list$ParameterName)[c(16)]),
+                  selected = unique(haridwar_10min_list$ParameterName)[c(23)]),
       selectInput("parameter2", label = "Select a parameter(s) for plot 2",
                   choices = list(Online =  unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[c(4,12,15,16:20,22:24)],
                                  Offline = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])),
                   multiple = TRUE,
-                  selected = unique(haridwar_10min_list$ParameterName)[c(30)]),
+                  selected = unique(haridwar_10min_list$ParameterName)[c(27)]),
+      checkboxInput('add_thresholds', "Add thresholds to plots 1+2", value = TRUE),
       downloadButton("report", "Download plot"),
       selectInput("dataset", "Choose a dataset to download:",
                   choices = c("data_plot1", "data_plot2")),

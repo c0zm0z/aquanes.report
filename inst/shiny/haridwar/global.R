@@ -18,6 +18,7 @@ haridwar_raw_list <- aquanes.report::import_data_haridwar(analytics_path = analy
                                           operation_mySQL_conf = mySQL,
                                           operation_meta_path = op_meta))
 
+print("### Step 4: Performing temporal aggregation ##########################")
 system.time(
 haridwar_10min_list <- aquanes.report::group_datetime(haridwar_raw_list,
                                                       by = 10*60))
@@ -43,3 +44,6 @@ saveRDS(haridwar_day_list, file = "data/haridwar_day_list.Rds")
   #haridwar_hour_list <- readRDS("data/haridwar_hour_list.Rds")
   #haridwar_day_list <- readRDS("data/haridwar_day_list.Rds")
 }
+
+print("### Step 5: Importing threshold information ##########################")
+thresholds <- aquanes.report::get_thresholds()

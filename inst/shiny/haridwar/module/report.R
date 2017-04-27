@@ -23,11 +23,12 @@ ui_report <- function(...) {
         selectInput("report_parameters_online", label = "Online",
                     choices = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[c(4,12,15,16:20,22:24)],
                     multiple = TRUE,
-                    selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[16]),
+                    selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[23]),
         selectInput("report_parameters_offline", label = "Offline",
                     choices = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"]),
                     multiple = TRUE,
-                    selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])[1]),
+                    selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])[3]),
+        checkboxInput('report_add_thresholds', "Add thresholds to offline/online parameters", value = TRUE),
         radioButtons("report_format", "Report format", c("HTML", "PDF", "Word"),
                       inline = TRUE),
         downloadButton("report_download", "Generate & download report"),
@@ -121,6 +122,7 @@ server_report <- function(...) {
                         report_aggregation = agg_para,
                         report_parameters_online = input$report_parameters_online,
                         report_parameters_offline = input$report_parameters_offline,
+                        report_add_thresholds = input$report_add_thresholds,
                         report_daterange = input$report_daterange,
                         report_timezone = input$report_timezone)
 
@@ -168,6 +170,7 @@ server_report <- function(...) {
                    report_sitenames = input$report_sitenames,
                    report_parameters_online = input$report_parameters_online,
                    report_parameters_offline = input$report_parameters_offline,
+                   report_add_thresholds = input$report_add_thresholds,
                    report_daterange = input$report_daterange,
                    report_timezone = input$report_timezone)
 
@@ -217,6 +220,7 @@ server_report <- function(...) {
                      report_sitenames = input$report_sitenames,
                      report_parameters_online = input$report_parameters_online,
                      report_parameters_offline = input$report_parameters_offline,
+                     report_add_thresholds = input$report_add_thresholds,
                      report_daterange = input$report_daterange,
                      report_timezone = input$report_timezone)
 

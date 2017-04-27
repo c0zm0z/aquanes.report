@@ -129,8 +129,14 @@ sites_meta <- analytics_4014 %>%
 operation_para_names <- utils::read.csv(file = operation_meta_path,
                                         stringsAsFactors = FALSE )
 
+
+cols_to_drop <- c("Comments",
+                  "ParameterThresholdComparison",
+                  "ParameterThreshold",
+                  "ParameterThresholdSource")
+
 operation_para_names <- operation_para_names %>%
-						dplyr::select_(.dots = dplyr::setdiff(names(operation_para_names),"Comments")) %>%
+						dplyr::select_(.dots = dplyr::setdiff(names(operation_para_names),cols_to_drop)) %>%
                         left_join(sites_meta)
 
 

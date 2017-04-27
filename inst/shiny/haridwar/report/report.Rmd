@@ -20,6 +20,7 @@ params:
   report_daterange: NA
   report_parameters_offline: NA
   report_parameters_online: NA
+  report_add_thresholds: NA
   report_sitenames: NA
   report_timezone: NA
   run_as_standalone: yes
@@ -29,8 +30,10 @@ params:
 library(RMySQL)
 library(ggplot2)
 library(ggforce)
+library(dplyr)
 library(aquanes.report)
 
+thresholds <- aquanes.report::get_thresholds()
 
 if (params$run_as_standalone) {
   
@@ -50,12 +53,14 @@ if (file.exists(report_config_path)) {
 input <- aquanes.report::report_txt_to_config(report_config_path)
   
 } else {
- 
+
+
 ### Set a dummy configuration in case no "report_config.txt" exists 
 input <- list(report_sitenames = unique(dat$SiteName),
               report_aggregation = "day",
-              report_parameters_online = unique(dat$ParameterName[dat$Source == "online"])[3],
-              report_parameters_offline = unique(dat$ParameterName[dat$Source == "offline"])[1],
+              report_parameters_online = unique(dat$ParameterName[dat$Source == "online"])[1],
+              report_parameters_offline = unique(dat$ParameterName[dat$Source == "offline"])[6],
+              report_add_thresholds = TRUE,
               report_daterange = c("2017-03-01", "2017-03-31"),
               report_timezone = "UTC")
 
@@ -81,6 +86,7 @@ config <- list(run_as_standalone = TRUE,
                report_sitenames = input$report_sitenames,
                report_parameters_online = input$report_parameters_online,
                report_parameters_offline = input$report_parameters_offline,
+               report_add_thresholds = input$report_add_thresholds,
                report_daterange = input$report_daterange,
                report_timezone = input$report_timezone
                )
@@ -94,6 +100,7 @@ config <- list(run_as_standalone = TRUE,
                 report_sitenames = params$report_sitenames,
                 report_parameters_online = params$report_parameters_online,
                 report_parameters_offline = params$report_parameters_offline,
+                report_add_thresholds = params$report_add_thresholds,
                 report_daterange = params$report_daterange,
                 report_timezone = params$report_timezone)
 }
@@ -120,7 +127,8 @@ level (i.e. median values): "`r config$report_aggregation`"
 
 ```{r, echo=FALSE}
 
-   online <- config$report_data[config$report_data[,"ParameterName"] %in% config$report_parameters_online,]
+   online <- config$report_data[config$report_data[,"ParameterName"] %in% config$report_parameters_online,] %>% 
+             dplyr::mutate_(label = "sprintf('%s (%s)',ParameterName, ParameterUnit)")
 
     for (i in seq_along(config$report_parameters_online)) {
       
@@ -131,18 +139,25 @@ level (i.e. median values): "`r config$report_aggregation`"
     g1 <- ggplot2::ggplot(online, ggplot2::aes_string(x = "DateTime",
                                     y = "ParameterValue",
                                     col = "SiteName")) +
-      ggforce::facet_wrap_paginate("sprintf('%s (%s)',ParameterName, ParameterUnit)",
+      ggforce::facet_wrap_paginate(~label,
                                    nrow = 1,
                                    ncol = 1,
                                    scales = "free_y",
                                    page = i) +
-      ggplot2::geom_point() +
+      ggplot2::geom_point() +  
       ggplot2::theme_bw(base_size = 20) +
       ggplot2::theme(legend.position = "top"
                      , strip.text.x = element_text(face = "bold")
                      , legend.title = element_blank()
                      ) +
       ggplot2::labs(x = "", y = "")
+    
+     if (config$report_add_thresholds == TRUE & config$report_parameters_online[i] %in% unique(thresholds$ParameterName)) {
+     
+     sel_threshold1 <- thresholds[thresholds$ParameterName == config$report_parameters_online[i],]
+     g1 <- g1 + ggplot2::geom_hline(yintercept =  sel_threshold1$ParameterThreshold, 
+                                   linetype = "dashed")   
+     } 
      print(g1) 
     }
     }
@@ -163,7 +178,8 @@ level (i.e. median values): "`r config$report_aggregation`"
 
 ```{r, echo=FALSE}
 
-   offline <- config$report_data[config$report_data[,"ParameterName"] %in% config$report_parameters_offline,]
+   offline <- config$report_data[config$report_data[,"ParameterName"] %in% config$report_parameters_offline,] %>% 
+              dplyr::mutate_(label = "sprintf('%s (%s)',ParameterName, ParameterUnit)")
 
     for (i in seq_along(config$report_parameters_offline)) {
       
@@ -174,7 +190,7 @@ level (i.e. median values): "`r config$report_aggregation`"
     g2 <- ggplot2::ggplot(offline, ggplot2::aes_string(x = "DateTime",
                                     y = "ParameterValue",
                                     col = "SiteName")) +
-      ggforce::facet_wrap_paginate("sprintf('%s (%s)',ParameterName, ParameterUnit)",
+      ggforce::facet_wrap_paginate(~label,
                                    nrow = 1,
                                    ncol = 1,
                                    scales = "free_y",
@@ -189,6 +205,12 @@ level (i.e. median values): "`r config$report_aggregation`"
                      #, axis.text = element_text(colour="black", size = 20)
                      ) +
       ggplot2::labs(x = "", y = "")
+    
+    if (config$report_add_thresholds == TRUE & config$report_parameters_offline[i] %in% unique(thresholds$ParameterName)) {
+     sel_threshold2 <- thresholds[thresholds$ParameterName == config$report_parameters_offline[i],]
+     g2 <- g2 + ggplot2::geom_hline(yintercept =  sel_threshold2$ParameterThreshold, 
+                                   linetype = "dashed")   
+     } 
     print(g2) 
     }
     }
