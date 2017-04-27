@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Report config: generate template — report_config_template â€¢ aquanes.report</title>
+<title>Dygraph: add (multiple) horizontal lines to plot — dygraph_add_limits â€¢ aquanes.report</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -73,40 +73,53 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Report config: generate template</h1>
+    <h1>Dygraph: add (multiple) horizontal lines to plot</h1>
     </div>
 
     
-    <p>Report config: generate template</p>
+    <p>Dygraph: add (multiple) horizontal lines to plot</p>
     
 
-    <pre class="usage"><span class='fu'>report_config_template</span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>temporal_aggregation</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
-  <span class='kw'>output_timezone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
+    <pre class="usage"><span class='fu'>dygraph_add_limits</span>(<span class='no'>dygraph</span>, <span class='no'>limits_df</span>, <span class='kw'>label_loc</span> <span class='kw'>=</span> <span class='st'>"left"</span>,
+  <span class='kw'>col_limits</span> <span class='kw'>=</span> <span class='st'>"ParameterThreshold"</span>, <span class='kw'>col_label</span> <span class='kw'>=</span> <span class='st'>"label"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>a dataframe as retrieved by import_data_haridwar()</p></td>
+      <th>dygraph</th>
+      <td><p>a dygraph object where (possibly) multiple horizontal lines
+should be added</p></td>
     </tr>
     <tr>
-      <th>temporal_aggregation</th>
-      <td><p>Set the following values if data should be
-summarised to e.g. 10 minutes (600) or hourly (3600), daily ("day")
-or monthly ("month") median values
-(default: "raw")</p></td>
+      <th>limits_df</th>
+      <td><p>dataframe containing the limits information to be added to
+the dygraph (e.g. as retrieved by function get_thresholds())</p></td>
     </tr>
     <tr>
-      <th>output_timezone</th>
-      <td><p>into which timezone should the data be converted for
-the report? (default: "UTC")</p></td>
+      <th>label_loc</th>
+      <td><p>Location for horizontal dygraph labels (left or right).
+(default: "left)</p></td>
+    </tr>
+    <tr>
+      <th>col_limits</th>
+      <td><p>column in limits_df containing the limits values (default:
+"ParameterThreshold")</p></td>
+    </tr>
+    <tr>
+      <th>col_label</th>
+      <td><p>column in limits_df containing the label values (default:
+"label")</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>further arguments passed to dygraphs::dyLimit()</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>default list for report configuration template</p>
+    <p>add limits to existing dygraph object</p>
     
 
   </div>
