@@ -10,7 +10,8 @@ get_thresholds <- function(csv_path = system.file(file.path("shiny/haridwar/data
                                               "thresholds.csv"),
                                     package = "aquanes.report")) {
 
-read.csv(csv_path) %>%
+read.csv(csv_path, 
+         stringsAsFactors = FALSE) %>%
 dplyr::mutate_("label" = "sprintf('%s %s %3.1f (%s)',
                 ParameterName,
                 ParameterThresholdComparison,

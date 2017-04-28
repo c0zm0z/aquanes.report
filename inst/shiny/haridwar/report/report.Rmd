@@ -132,7 +132,9 @@ level (i.e. median values): "`r config$report_aggregation`"
 
     for (i in seq_along(config$report_parameters_online)) {
       
-    n_measurements <- nrow(online[online[,"ParameterName"] == config$report_parameters_online[i],])
+    sel_par1 <- config$report_parameters_online[order(config$report_parameters_online)][i]
+      
+    n_measurements <- nrow(online[online[,"ParameterName"] == sel_par1,])
     
     if (n_measurements > 0) {
     
@@ -152,9 +154,8 @@ level (i.e. median values): "`r config$report_aggregation`"
                      ) +
       ggplot2::labs(x = "", y = "")
     
-     if (config$report_add_thresholds == TRUE & config$report_parameters_online[i] %in% unique(thresholds$ParameterName)) {
-     
-     sel_threshold1 <- thresholds[thresholds$ParameterName == config$report_parameters_online[i],]
+     if (config$report_add_thresholds == TRUE & sel_par1 %in% unique(thresholds$ParameterName)) {
+     sel_threshold1 <- thresholds[thresholds$ParameterName == sel_par1,]
      g1 <- g1 + ggplot2::geom_hline(yintercept =  sel_threshold1$ParameterThreshold, 
                                    linetype = "dashed")   
      } 
@@ -183,7 +184,9 @@ level (i.e. median values): "`r config$report_aggregation`"
 
     for (i in seq_along(config$report_parameters_offline)) {
       
-    n_measurements <- nrow(offline[offline[,"ParameterName"] == config$report_parameters_offline[i],])
+    sel_par2 <- config$report_parameters_offline[order(config$report_parameters_offline)][i]
+      
+    n_measurements <- nrow(offline[offline[,"ParameterName"] == sel_par2,])
     
     if (n_measurements > 0) {
     
@@ -206,8 +209,8 @@ level (i.e. median values): "`r config$report_aggregation`"
                      ) +
       ggplot2::labs(x = "", y = "")
     
-    if (config$report_add_thresholds == TRUE & config$report_parameters_offline[i] %in% unique(thresholds$ParameterName)) {
-     sel_threshold2 <- thresholds[thresholds$ParameterName == config$report_parameters_offline[i],]
+    if (config$report_add_thresholds == TRUE & sel_par2 %in% unique(thresholds$ParameterName)) {
+     sel_threshold2 <- thresholds[thresholds$ParameterName == sel_par2,]
      g2 <- g2 + ggplot2::geom_hline(yintercept =  sel_threshold2$ParameterThreshold, 
                                    linetype = "dashed")   
      } 
