@@ -11,10 +11,15 @@ ui_report <- function(...) {
         selectInput("report_timezone", label = "Select a timezone",
                     choices = c("UTC", "Asia/Calcutta"), #aquanes.report::get_valid_timezones()$TZ.,
                     selected = "UTC"),
-        dateRangeInput('report_daterange',
-                       label = 'Date range input: yyyy-mm-dd',
-                       start = "2016-09-01",
-                       end = "2016-10-30"),
+        selectInput("report_month", label = "Select a month for reporting",
+                    choices = report_months$label,
+                    multiple = FALSE,
+                    selected =  report_months$label[report_months$start == "2016-10-01"]),
+        # dateRangeInput('report_daterange',
+        #                label = 'Date range input: yyyy-mm-dd',
+        #                start = "2016-09-01",
+        #                end = "2016-10-30"),
+        uiOutput("report_daterange_dynamic"),
         selectInput("report_sitenames", label = "Select sampling points",
                     choices = unique(haridwar_10min_list$SiteName),
                     multiple = TRUE,
@@ -44,6 +49,16 @@ ui_report <- function(...) {
   }
 
 server_report <- function(...) {
+
+
+  output$report_daterange_dynamic <- renderUI({
+
+    sel_month <- report_months[report_months$label == input$report_month,]
+    dateRangeInput('report_daterange',
+                   label = 'Date range input: yyyy-mm-dd',
+                   start = sel_month$start,
+                   end = sel_month$end)
+  })
 
 
   report_agg <- reactive({
