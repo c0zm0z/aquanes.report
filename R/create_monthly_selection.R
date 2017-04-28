@@ -5,7 +5,7 @@
 #' @return dataframe with first/last day for each month between 'startDate' and
 #' 'endDate' month including a column 'label' (used in shiny app for month
 #' selection)
-#' @import lubridate
+#' @importFrom lubridate days_in_month
 #' @export
 
 create_monthly_selection <- function(startDate = "2016-09-01",
