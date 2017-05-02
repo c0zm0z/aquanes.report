@@ -23,9 +23,9 @@ create_monthly_selection <- function(startDate = "2016-09-01",
 
   days_in_months <- lubridate::days_in_month(df$start)
 
-  df$end <- sprintf("%s-%s",
+  df$end <- as.Date(sprintf("%s-%s",
                           format(df$start, "%Y-%m"),
-                          days_in_months)
+                          days_in_months))
 
   df$label <- format(df$start, "%B %Y")
 

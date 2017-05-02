@@ -5,21 +5,30 @@ ui_report <- function(...) {
 
     sidebarLayout(
       sidebarPanel(
-        selectInput("report_aggregation", label = "Select temporal aggregation",
+        selectInput("report_aggregation",
+                    label = "Select temporal aggregation",
                     choices = c("raw", "10min", "hour", "day", "month"),
                     selected = "10min"),
-        selectInput("report_timezone", label = "Select a timezone",
+        selectInput("report_timezone",
+                    label = "Select a timezone",
                     choices = c("UTC", "Asia/Calcutta"), #aquanes.report::get_valid_timezones()$TZ.,
                     selected = "UTC"),
-        selectInput("report_month", label = "Select a month for reporting",
-                    choices = report_months$label,
+        selectInput("report_period",
+                    label = "Select reporting period",
+                    choices = c("monthly", "user defined"),
                     multiple = FALSE,
-                    selected =  report_months$label[report_months$start == "2016-10-01"]),
-        # dateRangeInput('report_daterange',
-        #                label = 'Date range input: yyyy-mm-dd',
-        #                start = "2016-09-01",
-        #                end = "2016-10-30"),
-        uiOutput("report_daterange_dynamic"),
+                    selected = "monthly"),
+        conditionalPanel(condition = "input.report_period == 'monthly'",
+                         selectInput("report_period_monthly",
+                                     label = "Select a month for reporting",
+                                     choices = report_months$label,
+                                     multiple = FALSE,
+                                     selected =  report_months$label[report_months$start == "2016-10-01"])),
+        conditionalPanel(condition = "input.report_period != 'monthly'",
+                         dateRangeInput('report_period_userdefined',
+                                        label = 'Date range input: yyyy-mm-dd',
+                                        start = "2016-09-01",
+                                        end = "2016-10-30")),
         selectInput("report_sitenames", label = "Select sampling points",
                     choices = unique(haridwar_10min_list$SiteName),
                     multiple = TRUE,
@@ -51,13 +60,16 @@ ui_report <- function(...) {
 server_report <- function(...) {
 
 
-  output$report_daterange_dynamic <- renderUI({
+   report_daterange <- reactive({
 
-    sel_month <- report_months[report_months$label == input$report_month,]
-    dateRangeInput('report_daterange',
-                   label = 'Date range input: yyyy-mm-dd',
-                   start = sel_month$start,
-                   end = sel_month$end)
+    if (input$report_period == "monthly") {
+     sel_month <- report_months[report_months$label == input$report_period_monthly,]
+     res <- c(sel_month$start,sel_month$end)
+    }
+     else {
+     res <- input$report_period_userdefined
+     }
+     return(res)
   })
 
 
@@ -97,7 +109,7 @@ server_report <- function(...) {
   report_data <- reactive({
 
 
-    date_idx <- as.Date(report_tz()[,"DateTime"]) >= input$report_daterange[1] & as.Date(report_tz()[,"DateTime"]) <= input$report_daterange[2]
+    date_idx <- as.Date(report_tz()[,"DateTime"]) >= report_daterange()[1] & as.Date(report_tz()[,"DateTime"]) <= report_daterange()[2]
     site_idx <- report_tz()[,"SiteName"] %in% input$report_sitenames
     para_idx <- report_tz()[,"ParameterName"] %in%  c(input$report_parameters_online, input$report_parameters_offline)
     row_idx <- date_idx & site_idx & para_idx
@@ -138,7 +150,7 @@ server_report <- function(...) {
                         report_parameters_online = input$report_parameters_online,
                         report_parameters_offline = input$report_parameters_offline,
                         report_add_thresholds = input$report_add_thresholds,
-                        report_daterange = input$report_daterange,
+                        report_daterange = report_daterange(),
                         report_timezone = input$report_timezone)
 
       conf_name <- "report_config.txt"
@@ -186,7 +198,7 @@ server_report <- function(...) {
                    report_parameters_online = input$report_parameters_online,
                    report_parameters_offline = input$report_parameters_offline,
                    report_add_thresholds = input$report_add_thresholds,
-                   report_daterange = input$report_daterange,
+                   report_daterange = report_daterange(),
                    report_timezone = input$report_timezone)
 
     # Knit the document, passing in the `params` list, and eval it in a
@@ -236,7 +248,7 @@ server_report <- function(...) {
                      report_parameters_online = input$report_parameters_online,
                      report_parameters_offline = input$report_parameters_offline,
                      report_add_thresholds = input$report_add_thresholds,
-                     report_daterange = input$report_daterange,
+                     report_daterange = report_daterange(),
                      report_timezone = input$report_timezone)
 
       # Knit the document, passing in the `params` list, and eval it in a
