@@ -34,11 +34,11 @@ if (exists_userTable) {
 # logo -------------------------------------------------------------------------
 logo <<- function
 (
-  src="kwb.png",
+  src="aquanes.png",
   target = "_blank", ### opens new tab/window
-  href="http://www.kompetenz-wasser.de",
+  href="http://aquanes-h2020.eu",
   align="middle",
-  label = "KWB_homepage",
+  label = "AQUANES_homepage",
   add_div = TRUE,
   ... ### add. arguments passed to img(), e.g. height=40
 )
