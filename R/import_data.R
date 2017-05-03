@@ -100,7 +100,39 @@ if (debug) print("### Step 2: Import operational data ##########################
 
 
 #### 2.1) Import
+if(debug) print("### Step 1: Import analytics data ##########################")
+### Define directory (variable "xlsDir") and filename (variable "xlsName) of
+### EXCEl spreadsheet to be imported
+xlsPath <- analytics_path
 
+
+### Use case 2) Import a multiple sheets from a .xls file
+excludedSheets <- c("Parameters",
+                    "Location",
+                    "Sites",
+                    "Summary",
+                    "Observations",
+                    "dP_Manometer_2.Regelung",
+                    "Flow"
+)
+
+all_sheets <- readxl::excel_sheets(xlsPath)
+
+analytics_to_import <- all_sheets[!all_sheets %in% excludedSheets]
+
+
+
+analytics_4014 <- import_sheets(xlsPath = xlsPath,
+                                sheets_analytics = analytics_to_import)
+
+
+drop.cols <- c("Who", "Comments", "LocationName", "LocationID")
+select.cols <- dplyr::setdiff(names(analytics_4014),drop.cols)
+
+analytics_4014   <- analytics_4014[,select.cols] %>%
+  dplyr::filter_("!is.na(ParameterValue)") %>%
+  dplyr::mutate_(Source = "as.character('offline')",
+                 ParameterValue = "as.numeric(ParameterValue)")
 operation <- import_operation(mysql_conf = operation_mySQL_conf)
 
 
