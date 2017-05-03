@@ -19,8 +19,9 @@
 #' @return dataframe with calculated operational parameters
 #' @export
 #' @examples
+#' \dontrun{
 #' haridwar_raw_list <- import_data_haridwar()
-#' myDat <- calculate_operational_parameters(df = haridwar_raw_list)
+#' myDat <- calculate_operational_parameters(df = haridwar_raw_list)}
 
 
 calculate_operational_parameters <- function(df,
@@ -94,9 +95,10 @@ return(operation_calc_tidy)
 #' @return plots time series for calculated operational parameters
 #' @export
 #' @examples
+#' \dontrun{
 #' haridwar_raw_list <- import_data_haridwar()
 #' myDat <- calculate_operational_parameters(df = haridwar_raw_list)
-#' plot_calculated_operational_timeseries(myDat)
+#' plot_calculated_operational_timeseries(myDat)}
 
 plot_calculated_operational_timeseries <- function(df) {
 
