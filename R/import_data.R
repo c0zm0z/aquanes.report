@@ -1,7 +1,7 @@
 #'Imports Haridwar data
 #' @param analytics_path Define path of analytics EXCEL spreadsheet to be
 #' imported (default: system.file(file.path("shiny/haridwar/data",
-#' "161101Monitoring_AquaNES_4014_Haridwar_KWB.xlsx"),
+#' "analytics.xlsx"),
 #' package = "aquanes.report"))
 #' @param operation_mySQL_conf column name pattern for identifying raw data
 #' (default: system.file("shiny/haridwar/.my.cnf", package = "aquanes.report"))

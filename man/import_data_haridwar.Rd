@@ -14,7 +14,7 @@ import_data_haridwar(analytics_path = system.file(file.path("shiny",
 \arguments{
 \item{analytics_path}{Define path of analytics EXCEL spreadsheet to be
 imported (default: system.file(file.path("shiny/haridwar/data",
-"161101Monitoring_AquaNES_4014_Haridwar_KWB.xlsx"),
+"analytics.xlsx"),
 package = "aquanes.report"))}
 
 \item{operation_mySQL_conf}{column name pattern for identifying raw data
