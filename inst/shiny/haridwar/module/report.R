@@ -7,7 +7,7 @@ ui_report <- function(...) {
       sidebarPanel(
         selectInput("report_aggregation",
                     label = "Select temporal aggregation",
-                    choices = c("raw", "10min", "hour", "day", "month"),
+                    choices = c("raw", "10min", "hour", "day"),
                     selected = "10min"),
         selectInput("report_timezone",
                     label = "Select a timezone",
@@ -42,6 +42,10 @@ ui_report <- function(...) {
                     choices = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"]),
                     multiple = TRUE,
                     selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])[3]),
+        selectInput("report_parameters_calculated", label = "Calculated",
+                    choices = report_calc_paras,
+                    multiple = TRUE,
+                    selected = report_calc_paras[5:6]),
         checkboxInput('report_add_thresholds', "Add thresholds to offline/online parameters", value = TRUE),
         radioButtons("report_format", "Report format", c("HTML", "PDF", "Word"),
                       inline = TRUE),
@@ -105,15 +109,19 @@ server_report <- function(...) {
   })
 
 
+  report_tz_daterange <- reactive({
+
+    date_idx <- as.Date(report_tz()[,"DateTime"]) >= report_daterange()[1] & as.Date(report_tz()[,"DateTime"]) <= report_daterange()[2]
+    report_tz()[date_idx,]
+  })
 
   report_data <- reactive({
 
 
-    date_idx <- as.Date(report_tz()[,"DateTime"]) >= report_daterange()[1] & as.Date(report_tz()[,"DateTime"]) <= report_daterange()[2]
-    site_idx <- report_tz()[,"SiteName"] %in% input$report_sitenames
-    para_idx <- report_tz()[,"ParameterName"] %in%  c(input$report_parameters_online, input$report_parameters_offline)
-    row_idx <- date_idx & site_idx & para_idx
-    report_tz()[row_idx, c("DateTime",
+    site_idx <- report_tz_daterange()[,"SiteName"] %in% input$report_sitenames
+    para_idx <- report_tz_daterange()[,"ParameterName"] %in%  c(input$report_parameters_online, input$report_parameters_offline)
+    row_idx <- site_idx & para_idx
+    report_tz_daterange()[row_idx, c("DateTime",
                            "measurementID",
                            "SiteName",
                            "ParameterName",
@@ -149,6 +157,7 @@ server_report <- function(...) {
                         report_aggregation = agg_para,
                         report_parameters_online = input$report_parameters_online,
                         report_parameters_offline = input$report_parameters_offline,
+                        report_parameters_calculated = input$report_parameters_calculated,
                         report_add_thresholds = input$report_add_thresholds,
                         report_daterange = report_daterange(),
                         report_timezone = input$report_timezone)
@@ -192,11 +201,13 @@ server_report <- function(...) {
 
     # Set up parameters to pass to Rmd document
     params <- list(run_as_standalone = FALSE,
+                   report_tz = report_tz_daterange(),
                    report_data = report_data(),
                    report_aggregation = input$report_aggregation,
                    report_sitenames = input$report_sitenames,
                    report_parameters_online = input$report_parameters_online,
                    report_parameters_offline = input$report_parameters_offline,
+                   report_parameters_calculated = input$report_parameters_calculated,
                    report_add_thresholds = input$report_add_thresholds,
                    report_daterange = report_daterange(),
                    report_timezone = input$report_timezone)
@@ -242,11 +253,13 @@ server_report <- function(...) {
 
       # Set up parameters to pass to Rmd document
       params <- list(run_as_standalone = FALSE,
+                     report_tz = report_tz_daterange(),
                      report_data = report_data(),
                      report_aggregation = input$report_aggregation,
                      report_sitenames = input$report_sitenames,
                      report_parameters_online = input$report_parameters_online,
                      report_parameters_offline = input$report_parameters_offline,
+                     report_parameters_calculated = input$report_parameters_calculated,
                      report_add_thresholds = input$report_add_thresholds,
                      report_daterange = report_daterange(),
                      report_timezone = input$report_timezone)

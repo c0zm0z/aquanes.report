@@ -37,6 +37,8 @@ report_config_template <- function(df = NULL,
                  report_aggregation = temporal_aggregation,
                  report_parameters_online = parameters_online,
                  report_parameters_offline = parameters_offline,
+                 report_parameters_calculated = c("Specific energy demand of pump",
+                                                  "Specific energy demand of cell"),
                  report_add_thresholds = TRUE,
                  report_daterange = daterange,
                  report_timezone = output_timezone)

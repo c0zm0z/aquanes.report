@@ -50,3 +50,6 @@ thresholds <- aquanes.report::get_thresholds()
 
 print("### Step 6: Specify available months for reporting ##########################")
 report_months <- aquanes.report::create_monthly_selection()
+
+print("### Step 7: Add default calculated operational parameters ##########################")
+report_calc_paras <- unique(aquanes.report::calculate_operational_parameters(df = haridwar_10min_list)$ParameterName)

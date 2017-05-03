@@ -108,8 +108,8 @@ operation <- operation  %>%
                    Redox_Diff = "Redox_Out - Redox_In",
                    Power_pump = "Up*Ip",
                    Power_cell = "Uz*Iz",
-                   Pump_kwhPerCbm = "Power_pump/Flux",
-                   Cell_kwhPerCbm = "Power_cell/Flux")
+                   Pump_WhPerCbm = "Power_pump/Flux/1000",
+                   Cell_WhPerCbm = "Power_cell/Flux/1000")
 
 
 
@@ -169,7 +169,7 @@ p4 <- ggplot(data = operation_grouped %>% filter(DiffPressure < 10), aes(x = Dat
 print(p4)
 
 
-energy_tidy <- operation %>%  select(DateTime, Pump_kwhPerCbm, Cell_kwhPerCbm) %>% gather(key = "Key", value = "Value",-DateTime)
+energy_tidy <- operation %>%  select(DateTime, Pump_WhPerCbm, Cell_WhPerCbm) %>% gather(key = "Key", value = "Value",-DateTime)
 energy_tidy <- tidyr::separate(energy_tidy,
                                col = "Key",
                                into = c("System component", "Unit"),
@@ -186,7 +186,7 @@ p5 <- ggplot(energy_tidy , aes_string(x = "DateTime",
   geom_vline(xintercept = as.numeric(backwash), col = "red") +
   #facet_wrap(~ `System component`) +
   labs(list(x = "Datetime (UTC)",
-            y = "Specific energy demand (kWh/m3)",
+            y = "Specific energy demand (Wh/m3)",
             title = energy_title)) +
   theme_bw() +
   theme(legend.position = "top")
@@ -198,7 +198,7 @@ p6 <- ggplot(energy_tidy , aes_string(x = "`System component`",
   geom_jitter(height = 0, width = 0.3, alpha = 0.5) +
   #facet_wrap(~ `System component`) +
   labs(list(x = "System component",
-            y = "Specific energy demand (kWh/m3)",
+            y = "Specific energy demand (Wh/m3)",
             title = energy_title)) +
   theme_bw() +
   theme(legend.position = "top")

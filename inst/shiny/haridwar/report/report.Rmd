@@ -16,10 +16,12 @@ output:
     toc: yes
 params:
   report_aggregation: day
+  report_tz: NA
   report_data: NA
   report_daterange: NA
   report_parameters_offline: NA
   report_parameters_online: NA
+  report_parameters_calculated: NA
   report_add_thresholds: NA
   report_sitenames: NA
   report_timezone: NA
@@ -81,11 +83,13 @@ row_idx <- date_idx & site_idx & para_idx
 
 
 config <- list(run_as_standalone = TRUE,
+               report_tz = aquanes.report::change_timezone(dat,tz = input$report_timezone)[date_idx,],
                report_data = aquanes.report::change_timezone(dat[row_idx,],tz = input$report_timezone), 
                report_aggregation = input$report_aggregation,
                report_sitenames = input$report_sitenames,
                report_parameters_online = input$report_parameters_online,
                report_parameters_offline = input$report_parameters_offline,
+               report_parameters_calculated = unique(aquanes.report::calculate_operational_parameters(df = dat)$ParameterName),
                report_add_thresholds = input$report_add_thresholds,
                report_daterange = input$report_daterange,
                report_timezone = input$report_timezone
@@ -95,11 +99,13 @@ config <- list(run_as_standalone = TRUE,
 
   
  config <- list(run_as_standalone = params$run_as_standalone,
+                report_tz = params$report_tz,
                 report_data = params$report_data,
                 report_aggregation = params$report_aggregation,
                 report_sitenames = params$report_sitenames,
                 report_parameters_online = params$report_parameters_online,
                 report_parameters_offline = params$report_parameters_offline,
+                report_parameters_calculated = params$report_parameters_calculated,
                 report_add_thresholds = params$report_add_thresholds,
                 report_daterange = params$report_daterange,
                 report_timezone = params$report_timezone)
@@ -217,4 +223,77 @@ level (i.e. median values): "`r config$report_aggregation`"
     print(g2) 
     }
     }
+```
+
+##Calculated parameters
+
+**You selected the following `r length(config$report_parameters_calculated)` parameter(s) for plotting:**
+
+`r paste("* ", config$report_parameters_calculated,collapse = "  \n")`
+
+```{r, echo=FALSE, message=FALSE}
+calc_paras <- aquanes.report::calculate_operational_parameters(df = config$report_tz)
+
+idx_selected_paras <- calc_paras$ParameterName %in% config$report_parameters_calculated
+
+plot_calculated_operational_timeseries(calc_paras[idx_selected_paras,])
+
+
+```
+
+# Correlations
+
+## Flow vs. redox potential difference (outflow - inflow)
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+calc_paras <- aquanes.report::calculate_operational_parameters(df = config$report_tz)
+
+
+flux <- config$report_tz[config$report_tz$ParameterCode == "Flux", c("DateTime", "ParameterCode", "ParameterValue")]
+
+
+tmp <- calc_paras %>% 
+  dplyr::filter_(~ParameterCode %in% c("Pump_WhPerCbm", "Cell_WhPerCbm", "Redox_Diff")) %>% 
+  dplyr::select_("DateTime", "ParameterCode", "ParameterValue") %>% 
+  rbind(flux) %>%
+  tidyr::spread_(key_col = "ParameterCode", value_col = "ParameterValue") 
+
+plot_correlation <- function(df, 
+                 x = "Flux",
+                 y = "Redox_Diff", 
+                 xlab = "Flow (L/h)",
+                 ylab = "Difference (outflow - inflow) of redox potential (mV)") {
+g <- ggplot2::ggplot(tmp, aes_string(x = "Flux", 
+                       y = "Redox_Diff")) +
+    ggplot2::geom_point() +    # Use hollow circles
+    ggplot2::geom_smooth(method = lm) +  # Add linear regression line 
+                              #  (by default includes 95% confidence region)
+ggplot2::theme_bw(base_size = 20) +
+      ggplot2::theme(legend.position = "top" 
+                     , strip.text.x = element_text(face = "bold") 
+                     , legend.title = element_blank()
+                     #, axis.title = element_text(colour="black", size = 20)
+                     #, axis.text = element_text(colour="black", size = 20)
+                     ) +
+      ggplot2::labs(x = xlab, y = ylab)
+print(g)
+}
+
+plot_correlation(tmp)
+
+```
+
+## Flow vs. specific energy demand of electrolysis cell
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+plot_correlation(tmp, y = "Cell_WhPerCbm", ylab = "Specific energy demand of cell (Wh/m3)")
+
+```
+
+## Flow vs. specific energy demand of pump
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+plot_correlation(tmp, y = "Pump_WhPerCbm", ylab = "Specific energy demand of pump (Wh/m3)")
+
 ```
