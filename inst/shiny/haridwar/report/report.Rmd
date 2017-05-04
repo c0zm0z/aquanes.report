@@ -115,8 +115,8 @@ config <- list(run_as_standalone = TRUE,
 
 ```
 
-#Time series
-Here is the time series plots from `r config$report_daterange[1]` to  `r config$report_daterange[2]`
+#Reporting period (`r config$report_daterange[1]` -  `r config$report_daterange[2]`)
+Here are the time series plots for the reporting period from `r config$report_daterange[1]` to  `r config$report_daterange[2]`
 using the timezone "`r config$report_timezone`" with the following temporal aggregation 
 level (i.e. median values): "`r config$report_aggregation`"
 
@@ -133,7 +133,7 @@ level (i.e. median values): "`r config$report_aggregation`"
 
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
    online <- config$report_data[config$report_data[,"ParameterName"] %in% config$report_parameters_online,] %>% 
              dplyr::mutate_(label = "sprintf('%s (%s)',ParameterName, ParameterUnit)")
@@ -185,7 +185,7 @@ level (i.e. median values): "`r config$report_aggregation`"
 
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
    offline <- config$report_data[config$report_data[,"ParameterName"] %in% config$report_parameters_offline,] %>% 
               dplyr::mutate_(label = "sprintf('%s (%s)',ParameterName, ParameterUnit)")
