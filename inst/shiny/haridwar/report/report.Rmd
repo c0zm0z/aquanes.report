@@ -266,8 +266,8 @@ plot_correlation <- function(df,
                  y = "Redox_Diff", 
                  xlab = "Flow (L/h)",
                  ylab = "Difference (outflow - inflow) of redox potential (mV)") {
-g <- ggplot2::ggplot(tmp, aes_string(x = "Flux", 
-                       y = "Redox_Diff")) +
+g <- ggplot2::ggplot(tmp, aes_string(x = x, 
+                       y = y)) +
     ggplot2::geom_point() +    # Use hollow circles
     ggplot2::geom_smooth(method = lm) +  # Add linear regression line 
                               #  (by default includes 95% confidence region)
