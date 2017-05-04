@@ -41,7 +41,7 @@ ui_report <- function(...) {
         selectInput("report_parameters_offline", label = "Offline",
                     choices = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"]),
                     multiple = TRUE,
-                    selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])[3]),
+                    selected = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])[4]),
         selectInput("report_parameters_calculated", label = "Calculated",
                     choices = report_calc_paras,
                     multiple = TRUE,

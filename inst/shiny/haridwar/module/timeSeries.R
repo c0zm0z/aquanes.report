@@ -255,7 +255,7 @@ ui_timeSeries <- function(...) {
                   choices = list(Online =  unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "online"])[c(4,12,15,16:20,22:24)],
                                  Offline = unique(haridwar_10min_list$ParameterName[haridwar_10min_list$Source == "offline"])),
                   multiple = TRUE,
-                  selected = unique(haridwar_10min_list$ParameterName)[c(27)]),
+                  selected = unique(haridwar_10min_list$ParameterName)[c(28)]),
       checkboxInput('add_thresholds', "Add thresholds to plots 1+2", value = TRUE),
       downloadButton("report", "Download plot"),
       selectInput("dataset", "Choose a dataset to download:",
