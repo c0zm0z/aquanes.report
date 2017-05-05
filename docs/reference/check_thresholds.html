@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports Haridwar data — import_data_haridwar â€¢ aquanes.report</title>
+<title>Check thresholds — check_thresholds â€¢ aquanes.report</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -73,50 +73,34 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports Haridwar data</h1>
+    <h1>Check thresholds</h1>
     </div>
 
     
-    <p>Imports Haridwar data</p>
+    <p>Check thresholds</p>
     
 
-    <pre class="usage"><span class='fu'>import_data_haridwar</span>(<span class='kw'>analytics_path</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='fu'>file.path</span>(<span class='st'>"shiny"</span>,
-  <span class='st'>"haridwar/data/analytics.xlsx"</span>), <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"aquanes.report"</span>),
-  <span class='kw'>operation_mySQL_conf</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"shiny/haridwar/.my.cnf"</span>, <span class='kw'>package</span> <span class='kw'>=</span>
-  <span class='st'>"aquanes.report"</span>),
-  <span class='kw'>operation_meta_path</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='fu'>file.path</span>(<span class='st'>"shiny/haridwar/data"</span>,
-  <span class='st'>"operation_parameters.csv"</span>), <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"aquanes.report"</span>), <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>check_thresholds</span>(<span class='no'>df</span>, <span class='kw'>thresholds</span> <span class='kw'>=</span> <span class='kw'>aquanes.report</span><span class='kw'>::</span><span class='fu'><a href='get_thresholds.html'>get_thresholds</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>analytics_path</th>
-      <td><p>Define path of analytics EXCEL spreadsheet to be
-imported (default: system.file(file.path("shiny/haridwar/data",
-"analytics.xlsx"),
-package = "aquanes.report"))</p></td>
+      <th>df</th>
+      <td><p>a dataframe as retrieved by import_data_haridwar()</p></td>
     </tr>
     <tr>
-      <th>operation_mySQL_conf</th>
-      <td><p>column name pattern for identifying raw data
-(default: system.file("shiny/haridwar/.my.cnf", package = "aquanes.report"))</p></td>
-    </tr>
-    <tr>
-      <th>operation_meta_path</th>
-      <td><p>path to table with meta data for operational
-parameters (default: system.file(file.path("shiny/haridwar/data",
-"operation_parameters.csv"), package = "aquanes.report"))</p></td>
-    </tr>
-    <tr>
-      <th>debug</th>
-      <td><p>if TRUE print debug messages (default: TRUE)</p></td>
+      <th>thresholds</th>
+      <td><p>thresholds dataframe as retrieved by get_thresholds()
+(default: "raw")</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns data frame with Haridwar raw data (operation &amp; analytics)</p>
+    <p>dataframe with thresholds check results for selected time period (i.e.
+whether Parameters are below/above min/max thresholds defined in dataframe
+'thresholds')</p>
     
 
   </div>

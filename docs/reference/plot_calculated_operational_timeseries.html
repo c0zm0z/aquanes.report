@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Imports Haridwar data — import_data_haridwar â€¢ aquanes.report</title>
+<title>Plot calculate operational time series — plot_calculated_operational_timeseries â€¢ aquanes.report</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -73,52 +73,35 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Imports Haridwar data</h1>
+    <h1>Plot calculate operational time series</h1>
     </div>
 
     
-    <p>Imports Haridwar data</p>
+    <p>Plot calculate operational time series</p>
     
 
-    <pre class="usage"><span class='fu'>import_data_haridwar</span>(<span class='kw'>analytics_path</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='fu'>file.path</span>(<span class='st'>"shiny"</span>,
-  <span class='st'>"haridwar/data/analytics.xlsx"</span>), <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"aquanes.report"</span>),
-  <span class='kw'>operation_mySQL_conf</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='st'>"shiny/haridwar/.my.cnf"</span>, <span class='kw'>package</span> <span class='kw'>=</span>
-  <span class='st'>"aquanes.report"</span>),
-  <span class='kw'>operation_meta_path</span> <span class='kw'>=</span> <span class='fu'>system.file</span>(<span class='fu'>file.path</span>(<span class='st'>"shiny/haridwar/data"</span>,
-  <span class='st'>"operation_parameters.csv"</span>), <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"aquanes.report"</span>), <span class='kw'>debug</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_calculated_operational_timeseries</span>(<span class='no'>df</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>analytics_path</th>
-      <td><p>Define path of analytics EXCEL spreadsheet to be
-imported (default: system.file(file.path("shiny/haridwar/data",
-"analytics.xlsx"),
-package = "aquanes.report"))</p></td>
-    </tr>
-    <tr>
-      <th>operation_mySQL_conf</th>
-      <td><p>column name pattern for identifying raw data
-(default: system.file("shiny/haridwar/.my.cnf", package = "aquanes.report"))</p></td>
-    </tr>
-    <tr>
-      <th>operation_meta_path</th>
-      <td><p>path to table with meta data for operational
-parameters (default: system.file(file.path("shiny/haridwar/data",
-"operation_parameters.csv"), package = "aquanes.report"))</p></td>
-    </tr>
-    <tr>
-      <th>debug</th>
-      <td><p>if TRUE print debug messages (default: TRUE)</p></td>
+      <th>df</th>
+      <td><p>a data frame as retrieved by calculate_operational_parameters()</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns data frame with Haridwar raw data (operation &amp; analytics)</p>
+    <p>plots time series for calculated operational parameters</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='no'>haridwar_raw_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='import_data_haridwar.html'>import_data_haridwar</a></span>()
+  <span class='no'>myDat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculate_operational_parameters.html'>calculate_operational_parameters</a></span>(<span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>haridwar_raw_list</span>)
+  <span class='fu'>plot_calculated_operational_timeseries</span>(<span class='no'>myDat</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -126,7 +109,9 @@ parameters (default: system.file(file.path("shiny/haridwar/data",
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
