@@ -293,9 +293,4 @@ plot_correlation(tmp, y = "Cell_WhPerCbm", ylab = "Specific energy demand of cel
 
 ```
 
-## Flow vs. specific energy demand of pump
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-plot_correlation(tmp, y = "Pump_WhPerCbm", ylab = "Specific energy demand of pump (Wh/m3)")
-
-```
