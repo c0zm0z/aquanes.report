@@ -16,27 +16,55 @@ thresholds$ParameterThresholdComparisonR <- gsub(pattern = "^[=]",
                                                 thresholds$ParameterThresholdComparison)
 
 
-
+thresholds$number_total <- 0
+thresholds$number_of_satisfying <- 0
 thresholds$numberOfExceedance <- 0
-thresholds$exceedanceLabel <- "Satisfies threshold"
+
+thresholds$exceedanceLabel <- "No data within reporting period!"
 
 
 for (idx in seq_len(nrow(thresholds))) {
-  
-  cond1 <- df$ParameterCode == thresholds$ParameterCode[idx] & df$SiteCode == thresholds$SiteCode[idx]
-  cond2 <-  eval(parse(text=sprintf("df$ParameterValue %s %s", 
+
+  cond1 <- df$ParameterCode == thresholds$ParameterCode[idx] & df$SiteCode == thresholds$SiteCode[idx] & !is.na(df$ParameterValue)
+  cond2 <-  eval(parse(text = sprintf("df$ParameterValue %s %s",
                                     thresholds$ParameterThresholdComparisonR[idx],
                                     thresholds$ParameterThreshold[idx])))
-  
+
   condition <- cond1 & cond2
-  
-  number_of_exceedances <- nrow(df[condition,])
-  
-  if(number_of_exceedances > 0) {
+
+  number_total <-   nrow(df[cond1,])
+
+  number_of_satisfying <- nrow(df[condition,])
+  number_of_exceedances <- number_total -  number_of_satisfying
+
+  thresholds$number_total[idx] <- number_total
+  thresholds$number_of_satisfying[idx] <- number_of_satisfying
+
+  if (number_total > 0) {
     thresholds$numberOfExceedance[idx] <- number_of_exceedances
-    thresholds$exceedanceLabel[idx] <- "Not satisfying threshold"
+    thresholds$exceedanceLabel[idx] <- sprintf("%d (%2.1f %%)",
+                                               number_of_exceedances,
+                                               100*number_of_exceedances/number_total)
+
   }
 }
+
+
+thresholds$Threshold <- sprintf("%s %3.1f %s (%s)",
+                                thresholds$ParameterThresholdComparison,
+                                thresholds$ParameterThreshold,
+                                thresholds$ParameterUnit,
+                                thresholds$ParameterThresholdSource)
+
+
+thresholds <- thresholds[order(thresholds$ParameterName),]
+
+
+thresholds <- thresholds[,c("ParameterName", "Threshold", "exceedanceLabel")]
+
+names(thresholds) <- c("Parameter",
+                       "Threshold criterium",
+                       "Number/Percentage of non-satifying measurements")
 
 return(thresholds)
 
