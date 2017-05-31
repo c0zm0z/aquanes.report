@@ -8,7 +8,7 @@ Description: Collects, aggregates and visualises operational and
 	reporting document).
 Depends: R (>= 3.3.2)
 Imports:
-	devtools (>= 1.6),
+	devtools (>= 1.13.0),
 	plyr (>= 1.8.4),
 	RMySQL (>= 0.10.9),
 	dplyr (>= 0.5),
