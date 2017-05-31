@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper function: store MySQL database credentials in ".my.cnf" � src_mysql_from_cnf • aquanes.report</title>
+<title>Articles • aquanes.report</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-vignette-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -85,67 +85,21 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header">
-    <h1>Helper function: store MySQL database credentials in ".my.cnf"</h1>
+      <div class="page-header">
+  <h1>Articles <small>version&nbsp;0.2.9999</small></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="app_start.html">App Start</a></li>
+        <li><a href="installation.html">Installation</a></li>
+      </ul>
     </div>
-
-    
-    <p>Helper function: store MySQL database credentials in ".my.cnf"</p>
-    
-
-    <pre class="usage"><span class='fu'>src_mysql_from_cnf</span>(<span class='no'>dbname</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dir</span> <span class='kw'>=</span> <span class='fu'>file.path</span>(<span class='fu'>getwd</span>(),
-  <span class='st'>".my.cnf"</span>), <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>dbname</th>
-      <td><p>name of database to be accessed</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>name of group</p></td>
-    </tr>
-    <tr>
-      <th>dir</th>
-      <td><p>path to the MySQL configuration file (default: file.path(getwd(),
-".my.cnf"))</p></td>
-    </tr>
-    <tr>
-      <th>host</th>
-      <td><p>hostname of MySQL database (default: NULL)</p></td>
-    </tr>
-    <tr>
-      <th>user</th>
-      <td><p>username of MySQL database (default: NULL)</p></td>
-    </tr>
-    <tr>
-      <th>password</th>
-      <td><p>password of MySQL database (default: NULL)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>further arguments passed to dplyr::src_mysql()</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>sets dplyr::src_mysql to work with MySQL config file</p>
-    
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
-
   </div>
 </div>
 
