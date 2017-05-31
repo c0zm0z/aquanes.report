@@ -8,7 +8,6 @@ Description: Collects, aggregates and visualises operational and
 	reporting document).
 Depends: R (>= 3.3.2)
 Imports:
-	devtools (>= 1.13.0),
 	plyr (>= 1.8.4),
 	RMySQL (>= 0.10.9),
 	dplyr (>= 0.5),
@@ -28,6 +27,9 @@ Imports:
 	rmarkdown (>= 1.3),
 	xts (>= 0.9-7),
 	lubridate (>= 1.6.0)
+Suggests:
+    devtools (>= 1.13.0),
+    knitr
 License: MIT + file LICENSE
 Remotes: 
 	github::hadley/dplyr@55d826c208caca729156f218825f334b68f986dc,
