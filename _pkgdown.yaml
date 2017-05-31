@@ -5,11 +5,11 @@ navbar:
   title: ~
   type: default
   left:
+  - text: Installation
+    href: articles/installation.html
+  - text: App start
+    href: articles/app_start.html
+  - text: News
+    href: news/index.html
   - text: Reference
     href: reference/index.html
-  - text: Help
-    menu:
-    - text: Installation
-      href: articles/installation.html
-    - text: App start
-      href: articles/app_start.html
