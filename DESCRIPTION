@@ -38,3 +38,4 @@ LazyData: true
 RoxygenNote: 6.0.1
 URL: https://github.com/kwb-r/aquanes.report
 BugReports: https://github.com/kwb-r/aquanes.report/issues
+VignetteBuilder: knitr
