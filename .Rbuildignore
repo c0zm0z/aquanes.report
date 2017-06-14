@@ -3,5 +3,5 @@
 .travis.yml
 sites_info.csv
 .karte.R
-^docs\.*
+^\docs\.*
 _pkgdown.yaml
