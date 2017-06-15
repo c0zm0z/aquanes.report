@@ -91,8 +91,9 @@
 
     <pre class="usage"><span class='fu'>import_sheets</span>(<span class='no'>xlsPath</span>, <span class='no'>sheets_analytics</span>, <span class='kw'>sheet_parameters</span> <span class='kw'>=</span> <span class='st'>"Parameters"</span>,
   <span class='kw'>sheet_sites</span> <span class='kw'>=</span> <span class='st'>"Sites"</span>, <span class='kw'>sheet_location</span> <span class='kw'>=</span> <span class='st'>"Location"</span>,
-  <span class='kw'>col_rawData_pattern</span> <span class='kw'>=</span> <span class='st'>"raw"</span>, <span class='kw'>col_ignore_pattern</span> <span class='kw'>=</span> <span class='st'>"mean|empty|X_|RX"</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>tz_org</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tz_export</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>dbg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>col_rawData_pattern</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
+  <span class='kw'>col_ignore_pattern</span> <span class='kw'>=</span> <span class='st'>"mean|empty|X_|RX|not_used"</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>69</span>,
+  <span class='kw'>tz_org</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tz_export</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>dbg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -129,11 +130,11 @@ with analytics data (check with: readxl::excel_sheets(xlsPath))</p></td>
     <tr>
       <th>col_ignore_pattern</th>
       <td><p>specify pattern of columns that should be ignored
-of importing (default: "mean|empty|X_")</p></td>
+of importing (default: "mean|empty|X_|RX|not_used")</p></td>
     </tr>
     <tr>
       <th>skip</th>
-      <td><p>number of rows in sheet to skip (default: 10),</p></td>
+      <td><p>number of rows in sheet to skip (default: 69),</p></td>
     </tr>
     <tr>
       <th>tz_org</th>

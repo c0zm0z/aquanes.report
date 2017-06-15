@@ -90,8 +90,8 @@
     
 
     <pre class="usage"><span class='fu'>import_sheet</span>(<span class='no'>xlsPath</span>, <span class='no'>sheet</span>, <span class='kw'>col_names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col_rawData_pattern</span> <span class='kw'>=</span> <span class='st'>"raw"</span>,
-  <span class='kw'>col_ignore_pattern</span> <span class='kw'>=</span> <span class='st'>"mean|empty|X_"</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>tz_org</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>,
-  <span class='kw'>tz_export</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
+  <span class='kw'>col_ignore_pattern</span> <span class='kw'>=</span> <span class='st'>"mean|empty|X_|RX|not_used"</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>69</span>,
+  <span class='kw'>tz_org</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>, <span class='kw'>tz_export</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -118,11 +118,11 @@ analytics data (check with: readxl::excel_sheets(xlsPath))</p></td>
     <tr>
       <th>col_ignore_pattern</th>
       <td><p>specify pattern of columns that should be ignored
-of importing (default: "mean|empty|X_")</p></td>
+of importing (default: "mean|empty|X_|RX|not_used")</p></td>
     </tr>
     <tr>
       <th>skip</th>
-      <td><p>number of rows in sheet to skip (default: 10),</p></td>
+      <td><p>number of rows in sheet to skip (default: 69),</p></td>
     </tr>
     <tr>
       <th>tz_org</th>

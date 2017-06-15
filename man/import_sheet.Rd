@@ -5,8 +5,8 @@
 \title{Imports an analytics sheet from an EXCEL spreadsheet}
 \usage{
 import_sheet(xlsPath, sheet, col_names = TRUE, col_rawData_pattern = "raw",
-  col_ignore_pattern = "mean|empty|X_", skip = 10, tz_org = "UTC",
-  tz_export = "UTC")
+  col_ignore_pattern = "mean|empty|X_|RX|not_used", skip = 69,
+  tz_org = "UTC", tz_export = "UTC")
 }
 \arguments{
 \item{xlsPath}{path to xls file with analytics data}
@@ -21,9 +21,9 @@ analytics data (check with: readxl::excel_sheets(xlsPath))}
 (default: "raw")}
 
 \item{col_ignore_pattern}{specify pattern of columns that should be ignored
-of importing (default: "mean|empty|X_")}
+of importing (default: "mean|empty|X_|RX|not_used")}
 
-\item{skip}{number of rows in sheet to skip (default: 10),}
+\item{skip}{number of rows in sheet to skip (default: 69),}
 
 \item{tz_org}{specify timezone of samples  (default: "UTC")}
 
