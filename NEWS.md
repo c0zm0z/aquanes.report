@@ -1,6 +1,10 @@
-# aquanes.report 0.2.9999
+# aquanes.report 0.3.9999
 
 * current development version (only for case study "Haridwar")
+
+# aquanes.report 0.3.0
+
+* version as presented on GA in Greece
 
 # aquanes.report 0.2.0-alpha
 

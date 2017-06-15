@@ -18,11 +18,11 @@ is described.
 - [R (>= 3.3.2)](https://cloud.r-project.org/): for the development of the R 
 package **aquanes.report** R 3.3.2 was used. However, also later R releases (e.g. 3.4) should be working.  
 
-- [Rtools](https://cran.rstudio.com/bin/windows/Rtools/): required to compile R packages from source. The required version depends on the installed R version. 
+- [Rtools](https://cran.rstudio.com/bin/windows/Rtools/): required to compile R packages from source (Attention: the required 
+version depends on the installed R version on your OS)
 
 - [Pandoc](http://pandoc.org/installing.html): is required to convert the reports 
 from plain text format (markdown) into the different formats (docx, html, pdf). 
-We used
 
 - [Miktex](https://miktex.org/download): needs to be installed in case that **pdf** reports should be created.
 
@@ -53,7 +53,7 @@ In case you want to install a specific release you need to specify the
 parameter "ref", which needs to be set to a valid release (check here: [releases](https://github.com/KWB-R/aquanes.report/releases)) by running the following code in R(Studio). This tutorial at least requires release version [v.0.2.0-alpha](https://github.com/KWB-R/aquanes.report/releases/tag/v.0.2.0-alpha)):
 ```r
 devtools::install_github("kwb-r/aquanes.report", 
-                         ref = "v.0.2.0-alpha",
+                         ref = "v.0.3.0",
                          dependencies = TRUE)
 ```
 

@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-vignette">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -58,82 +58,22 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
-    <div id="aquanes-report" class="section level1">
+  <div class="col-md-9">
+    
+
+    
+    
+<div class="contents">
+<div id="aquanes-report" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#aquanes-report" class="anchor"></a>aquanes.report</h1></div>
 <p>Collects, aggregates and visualises operational analytical data from water suppliers (including a standardised reporting document)</p>
 <p><a href="https://travis-ci.org/KWB-R/aquanes.report"><img src="https://travis-ci.org/KWB-R/aquanes.report.svg?branch=master" alt="Build Status"></a></p>
-<div id="step-1-installation-of-r-package-devtools" class="section level2">
-<h2 class="hasAnchor">
-<a href="#step-1-installation-of-r-package-devtools" class="anchor"></a>Step 1) Installation of R package “devtools”</h2>
-<p>The R package “devtools” is required for downloading and installing the R package “aquanes.report” from Github. For installing it execute the following lines of code in R(Studio):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (!<span class="kw">require</span>(<span class="st">"devtools"</span>)) {
-  <span class="kw">install.packages</span>(<span class="st">"devtools"</span>, <span class="dt">repos =</span> <span class="st">"https://cloud.r-project.org"</span>)
-}</code></pre></div>
-</div>
-<div id="step-2-installation-of-r-package-aquanes-report" class="section level2">
-<h2 class="hasAnchor">
-<a href="#step-2-installation-of-r-package-aquanes-report" class="anchor"></a>Step 2) Installation of R package “aquanes.report”</h2>
-<div id="specific-release" class="section level3">
-<h3 class="hasAnchor">
-<a href="#specific-release" class="anchor"></a>2.1) Specific release</h3>
-<p>In case you want to install a specific release you need to specify the parameter “ref”, which needs to be set to a valid release (check here: <a href="https://github.com/KWB-R/aquanes.report/releases">releases</a>) by running the following code in R(Studio). This tutorial at least requires release version <a href="https://github.com/KWB-R/aquanes.report/releases/tag/v.0.2.0-alpha">v.0.2.0-alpha</a>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"kwb-r/aquanes.report"</span>, 
-                         <span class="dt">ref =</span> <span class="st">"v.0.2.0-alpha"</span>,
-                         <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</code></pre></div>
-</div>
-<div id="development-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>2.2) Development version</h3>
-<p>If you want to install the latest (possibly unstable!) development version, execute the following lines of code in R(Studio):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"kwb-r/aquanes.report"</span>, 
-                         <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</code></pre></div>
-</div>
-</div>
-<div id="step-3-check-the-installation-folder-of-the-package-in-rstudio-with" class="section level2">
-<h2 class="hasAnchor">
-<a href="#step-3-check-the-installation-folder-of-the-package-in-rstudio-with" class="anchor"></a>Step 3) Check the installation folder of the package in R(Studio) with:</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"aquanes.report"</span>)</code></pre></div>
-</div>
-<div id="step-4-two-files-need-to-be-copied" class="section level2">
-<h2 class="hasAnchor">
-<a href="#step-4-two-files-need-to-be-copied" class="anchor"></a>Step 4) Two files need to be copied:</h2>
-<div id="mysql-configuration-file--my-cnf" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mysql-configuration-file--my-cnf" class="anchor"></a>4.1) mySQL configuration file (‘.my.cnf’)</h3>
-<p>The ‘.my.cnf’ is required to establish a connection to the mySQL database for querying the operational data for the Haridwar site. It needs to be copied into the following directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">"shiny/haridwar"</span>, <span class="dt">package =</span> <span class="st">"aquanes.report"</span>)</code></pre></div>
-</div>
-<div id="analytics-spreadsheet-file-analytics-xlsx" class="section level3">
-<h3 class="hasAnchor">
-<a href="#analytics-spreadsheet-file-analytics-xlsx" class="anchor"></a>4.2) Analytics spreadsheet file (‘analytics.xlsx’)</h3>
-<p>The ‘analytics.xlsx’ file contains the analytics data for the Haridwar site and needs to be copied into the following directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">"shiny/haridwar/data"</span>, <span class="dt">package =</span> <span class="st">"aquanes.report"</span>)</code></pre></div>
-</div>
-</div>
-<div id="step-5-launch-the-shiny-app-locally" class="section level2">
-<h2 class="hasAnchor">
-<a href="#step-5-launch-the-shiny-app-locally" class="anchor"></a>Step 5) Launch the shiny app locally</h2>
-<div id="first-usage" class="section level3">
-<h3 class="hasAnchor">
-<a href="#first-usage" class="anchor"></a>5.1) First usage</h3>
-<p>If you start the app for the first time you need to set the parameter “use_live_data = TRUE”, so that the latest operational data is downloaded from the mySQL Database</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aquanes.report::<span class="kw"><a href="reference/run_app.html">run_app</a></span>(
-                        <span class="dt">use_live_data =</span> <span class="ot">TRUE</span> ### if TRUE latest operational data from mySQL DB is used
-                        )</code></pre></div>
-</div>
-<div id="subsequent-usage" class="section level3">
-<h3 class="hasAnchor">
-<a href="#subsequent-usage" class="anchor"></a>5.2) Subsequent usage</h3>
-<p>If you start the app for a second time (i.e. after having at least once performed step 5.1) and do not need up-to-date operational data it is sufficient to run the following code (i.e. with “use_live_data = FALSE”):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aquanes.report::<span class="kw"><a href="reference/run_app.html">run_app</a></span>()</code></pre></div>
-</div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Links</h2>
 <ul class="list-unstyled">
 <li>Browse source code at <br><a href="https://github.com/kwb-r/aquanes.report">https://​github.com/​kwb-r/​aquanes.report</a>
@@ -148,6 +88,7 @@
 <li>Michael Rustler <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
 </div>
+
 </div>
 
 

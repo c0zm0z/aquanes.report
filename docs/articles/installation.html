@@ -73,8 +73,8 @@
 <a href="#pre-required-software" class="anchor"></a>Pre-required software</h2>
 <ul>
 <li><p><a href="https://cloud.r-project.org/">R (&gt;= 3.3.2)</a>: for the development of the R package <strong>aquanes.report</strong> R 3.3.2 was used. However, also later R releases (e.g. 3.4) should be working.</p></li>
-<li><p><a href="https://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>: required to compile R packages from source. The required version depends on the installed R version.</p></li>
-<li><p><a href="http://pandoc.org/installing.html">Pandoc</a>: is required to convert the reports from plain text format (markdown) into the different formats (docx, html, pdf). We used</p></li>
+<li><p><a href="https://cran.rstudio.com/bin/windows/Rtools/">Rtools</a>: required to compile R packages from source (Attention: the required version depends on the installed R version on your OS)</p></li>
+<li><p><a href="http://pandoc.org/installing.html">Pandoc</a>: is required to convert the reports from plain text format (markdown) into the different formats (docx, html, pdf).</p></li>
 <li><p><a href="https://miktex.org/download">Miktex</a>: needs to be installed in case that <strong>pdf</strong> reports should be created.</p></li>
 </ul>
 <p>For the advanced user it is further recommended to install the latest version of the integrated development environment (IDE) <a href="https://www.rstudio.com/products/rstudio/download2/#download">RStudio Desktop “open source licence”</a>.</p>
@@ -99,7 +99,7 @@
 <a href="#specific-release" class="anchor"></a>2.1) Specific release</h4>
 <p>In case you want to install a specific release you need to specify the parameter “ref”, which needs to be set to a valid release (check here: <a href="https://github.com/KWB-R/aquanes.report/releases">releases</a>) by running the following code in R(Studio). This tutorial at least requires release version <a href="https://github.com/KWB-R/aquanes.report/releases/tag/v.0.2.0-alpha">v.0.2.0-alpha</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"kwb-r/aquanes.report"</span>, 
-                         <span class="dt">ref =</span> <span class="st">"v.0.2.0-alpha"</span>,
+                         <span class="dt">ref =</span> <span class="st">"v.0.3.0"</span>,
                          <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="development-version" class="section level4">
