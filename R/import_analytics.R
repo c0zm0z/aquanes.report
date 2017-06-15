@@ -54,8 +54,8 @@ return(df)
 #' @param col_rawData_pattern specify pattenr of columns containing raw data
 #' (default: "raw")
 #' @param col_ignore_pattern  specify pattern of columns that should be ignored
-#' of importing (default: "mean|empty|X_")
-#' @param skip number of rows in sheet to skip (default: 10),
+#' of importing (default: "mean|empty|X_|RX|not_used")
+#' @param skip number of rows in sheet to skip (default: 69),
 #' @param tz_org  specify timezone of samples  (default: "UTC")
 #' @param tz_export specify timezone for data export (default: "UTC")
 #' @return returns data frame with normalised analytics data in list form
@@ -65,8 +65,8 @@ import_sheet <- function(xlsPath,
                          sheet,
                          col_names = TRUE,
                          col_rawData_pattern = "raw",
-                         col_ignore_pattern = "mean|empty|X_",
-                         skip = 10,
+                         col_ignore_pattern = "mean|empty|X_|RX|not_used",
+                         skip = 69,
                          tz_org = "UTC",
                          tz_export = "UTC") {
 
@@ -135,8 +135,8 @@ import_sheet <- function(xlsPath,
 #' @param col_rawData_pattern specify pattenr of columns containing raw data
 #' (default: "raw")
 #' @param col_ignore_pattern  specify pattern of columns that should be ignored
-#' of importing (default: "mean|empty|X_")
-#' @param skip number of rows in sheet to skip (default: 10),
+#' of importing (default: "mean|empty|X_|RX|not_used")
+#' @param skip number of rows in sheet to skip (default: 69),
 #' @param tz_org  specify timezone of samples  (default: "UTC")
 #' @param tz_export specify timezone for data export (default: "UTC")
 #' @param dbg print debug messages (default: TRUE)
@@ -149,9 +149,9 @@ import_sheets <- function(xlsPath,
                           sheet_sites = "Sites",
                           sheet_location = "Location",
                           col_rawData_pattern = "raw",
-                          col_ignore_pattern = "mean|empty|X_|RX",
+                          col_ignore_pattern = "mean|empty|X_|RX|not_used",
                           ### skip: rows to skip for each sheet
-                          skip = 10,
+                          skip = 69,
                           ### tz_org:
                           tz_org = NULL,
                           ### tz_export:
