@@ -9,7 +9,10 @@ import_data_haridwar(analytics_path = system.file(file.path("shiny",
   operation_mySQL_conf = system.file("shiny/haridwar/.my.cnf", package =
   "aquanes.report"),
   operation_meta_path = system.file(file.path("shiny/haridwar/data",
-  "operation_parameters.csv"), package = "aquanes.report"), debug = TRUE)
+  "operation_parameters.csv"), package = "aquanes.report"),
+  excludedSheets = c("Parameters", "Location", "Sites", "#Summary",
+  "Site_and_Parameter", "Observations", "dP", "ORP", "Flow", "SAK_254",
+  "SAK_463", "As_total_Arsenator"), skip = 69, debug = TRUE)
 }
 \arguments{
 \item{analytics_path}{Define path of analytics EXCEL spreadsheet to be
@@ -23,6 +26,14 @@ package = "aquanes.report"))}
 \item{operation_meta_path}{path to table with meta data for operational
 parameters (default: system.file(file.path("shiny/haridwar/data",
 "operation_parameters.csv"), package = "aquanes.report"))}
+
+\item{excludedSheets}{all sheets, which are not listed here will be imported
+as lab data sheets (default: c("Parameters", "Location", "Sites", "#Summary",
+"Site_and_Parameter", "Observations", "dP", "ORP", "Flow", "SAK_254", "SAK_463",
+"As_total_Arsenator"))}
+
+\item{skip}{number of rows to skip for each lab data sheet (default: 69), i.e.
+for all sheets which are not explictly excluded with parameter "excludedSheets"}
 
 \item{debug}{if TRUE print debug messages (default: TRUE)}
 }

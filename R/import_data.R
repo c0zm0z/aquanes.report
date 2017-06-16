@@ -8,6 +8,12 @@
 #' @param operation_meta_path path to table with meta data for operational
 #' parameters (default: system.file(file.path("shiny/haridwar/data",
 #' "operation_parameters.csv"), package = "aquanes.report"))
+#' @param excludedSheets all sheets, which are not listed here will be imported
+#' as lab data sheets (default: c("Parameters", "Location", "Sites", "#Summary",
+#' "Site_and_Parameter", "Observations", "dP", "ORP", "Flow", "SAK_254", "SAK_463",
+#' "As_total_Arsenator"))
+#' @param skip number of rows to skip for each lab data sheet (default: 69), i.e.
+#' for all sheets which are not explictly excluded with parameter "excludedSheets"
 #' @param debug if TRUE print debug messages (default: TRUE)
 #' @return returns data frame with Haridwar raw data (operation & analytics)
 #' @import readxl
@@ -25,7 +31,20 @@ import_data_haridwar <- function(analytics_path = system.file(file.path("shiny",
   operation_meta_path = system.file(file.path("shiny/haridwar/data",
                         "operation_parameters.csv"),
                         package = "aquanes.report"),
-                                 debug = TRUE) {
+  excludedSheets = c("Parameters",
+                      "Location",
+                      "Sites",
+                      "#Summary",
+                      "Site_and_Parameter",
+                      "Observations",
+                      "dP",
+                      "ORP",
+                      "Flow",
+                      "SAK_254",
+                      "SAK_463",
+                      "As_total_Arsenator"),
+  skip = 69,
+  debug = TRUE) {
 
 
   if (!file.exists(analytics_path)) {
@@ -58,35 +77,17 @@ import_data_haridwar <- function(analytics_path = system.file(file.path("shiny",
 #### 1) Import analytics data from EXCEL spreadsheet
 ###############################################################################
 if(debug) print("### Step 1: Import analytics data ##########################")
-### Define directory (variable "xlsDir") and filename (variable "xlsName) of
-### EXCEl spreadsheet to be imported
-xlsPath <- analytics_path
 
 
-### Use case 2) Import a multiple sheets from a .xls file
-excludedSheets <- c("Parameters",
-                    "Location",
-                    "Sites",
-                    "#Summary",
-                    "Site_and_Parameter",
-                    "Observations",
-                    #"Turbidity",
-                    "dP",
-                    "ORP",
-                    "Flow",
-                    "SAK_254",
-                    "SAK_463",
-                    "As_total_Arsenator")
-
-all_sheets <- readxl::excel_sheets(xlsPath)
+all_sheets <- readxl::excel_sheets(path = analytics_path)
 
 analytics_to_import <- all_sheets[!all_sheets %in% excludedSheets]
 
 
 
-analytics_4014 <- import_sheets(xlsPath = xlsPath,
+analytics_4014 <- import_sheets(xlsPath = analytics_path,
                                 sheets_analytics = analytics_to_import,
-                                skip = 69)
+                                skip = skip)
 
 
 drop.cols <- c("Who", "Comments", "LocationName", "LocationID")

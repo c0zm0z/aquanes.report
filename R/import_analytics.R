@@ -78,6 +78,28 @@ import_sheet <- function(xlsPath,
 
   names(tmp_par1)[1] <- "DateTime"
 
+
+  ### Check if all data points in first column are of type DATE/TIME
+  if (is.character(tmp_par1$DateTime)) {
+
+
+    date_time_entries <- tmp_par1$DateTime[!is.na(tmp_par1$DateTime)]
+
+    non_datetime_indices <- is.na(suppressWarnings(as.numeric(date_time_entries)))
+
+    non_datetime_values <- date_time_entries[non_datetime_indices]
+
+    msg <- sprintf("All data values in first column need to be of type 'DATE/TIME'\n
+                    The following value(s) do not satisfy this condition: %s\n
+                    Please check/correct the value(s) in sheet '%s' of imported xls file '%s'!",
+                   paste(non_datetime_values, collapse = ","),
+                   sheet,
+                   xlsPath)
+
+    stop(msg, call. = FALSE)
+
+  }
+
   ### Fill missing date/time entries in case samples were taken
   ### (for details: see function: fill_datetime)
 
@@ -116,8 +138,31 @@ import_sheet <- function(xlsPath,
                                     sep = "@",
                                     remove = TRUE)
 
+
   ### Remove rows with NA as ParameterValue
-  tmp_par7_list <- tmp_par6_list %>% filter_("!is.na(ParameterValue)")
+  tmp_par7_list <- tmp_par6_list %>%
+                   dplyr::filter_("!is.na(ParameterValue)")
+
+
+  ### Cast to numeric just in case EXCEL data is imported as CHARACTER
+  tmp_par7_list$ParameterValue <- suppressWarnings(as.numeric(tmp_par7_list$ParameterValue))
+
+
+  non_numeric_paravals <- tmp_par7_list$ParameterValue[is.na(tmp_par7_list$ParameterValue)]
+
+  ### Check if all parameter values are of type NUMERIC
+  if (any(non_numeric_paravals)) {
+
+   msg <- sprintf("All parameter values need to be numeric!\n
+                   The following value(s) do not satisfy this condition: %s\n
+                   Please check/correct the value(s) in sheet '%s' of imported xls file '%s'!",
+                   paste(non_numeric_paravals, collapse = ","),
+                   sheet,
+                   xlsPath)
+
+    stop(msg, call. = FALSE)
+
+  }
 
   return(tmp_par7_list)
 }
