@@ -24,7 +24,7 @@
 #' @export
 
 import_data_julo <- function(analytics_path = system.file(file.path("shiny",
-  "haridwar/data/analytics.xlsx"),
+  "julo/data/analytics.xlsx"),
   package = "aquanes.report"),
   operation_mySQL_conf = system.file("shiny/julo/.my.cnf",
                                       package = "aquanes.report"),
