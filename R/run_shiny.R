@@ -48,7 +48,27 @@ run_app <- function(siteName = "haridwar",
            call. = FALSE)
     }
   }
-}
+  }
+
+  if (siteName == "julo") {
+    mySQL_conf_path <- file.path(appDir, ".my.cnf")
+
+    if (use_live_data) {
+
+      if (!is.null(mySQL_conf)) {
+        file.copy(from = mySQL_conf,
+                  to = mySQL_conf_path)
+      }
+
+      if (!file.exists(mySQL_conf_path)) {
+        msg <- sprintf("No '.my.cnf' file located under: %s\n.
+                       Please once specify the path to a valid MySQL config file with parameter
+                       'mySQL_conf'", appDir)
+        stop(msg,
+             call. = FALSE)
+      }
+    }
+  }
 
   global_path <-  file.path(appDir, "global.R")
 
