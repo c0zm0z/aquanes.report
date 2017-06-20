@@ -88,7 +88,7 @@ tbl_tmp <- plyr::rbind.fill(tbl_live, tbl_india)
 duplicated_datetimes <- names(which(table(tbl_tmp$time) != 1))
 
 operation <- tbl_tmp[!tbl_tmp$time %in% duplicated_datetimes,] %>%
-             left_join(data.frame(AnlagenID = c(4013,4014),
+             left_join(data.frame(AnlagenID = c(9999,4015),
                                    LocationName = rep("Haridwar",2))) %>%
              dplyr::rename_("DateTime" = "time") %>%
              dplyr::mutate_("DateTime" = "as.POSIXct(DateTime,tz = 'UTC')")
