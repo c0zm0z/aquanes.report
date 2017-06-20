@@ -6,9 +6,9 @@
 \usage{
 import_data_julo(analytics_path = system.file(file.path("shiny",
   "haridwar/data/analytics.xlsx"), package = "aquanes.report"),
-  operation_mySQL_conf = system.file("shiny/haridwar/.my.cnf", package =
+  operation_mySQL_conf = system.file("shiny/julo/.my.cnf", package =
   "aquanes.report"),
-  operation_meta_path = system.file(file.path("shiny/haridwar/data",
+  operation_meta_path = system.file(file.path("shiny/julo/data",
   "operation_parameters.csv"), package = "aquanes.report"),
   excludedSheets = c("Parameters", "Location", "Sites", "#Summary",
   "Site_and_Parameter", "Observations", "dP", "ORP", "Flow", "SAK_254",
