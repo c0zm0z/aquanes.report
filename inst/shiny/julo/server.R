@@ -95,7 +95,7 @@ shinyServer(function(input, output, session) {
   source("module/site.R", local = TRUE)
   source("module/kwb.R", local = TRUE)
   # Data ----
-  #readRDS("data/haridwar_raw_list.Rds")
+  #readRDS("data/julo_raw_list.Rds")
   #Read user table
 
   # main page ----

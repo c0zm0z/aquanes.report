@@ -1,12 +1,12 @@
-#'Imports Haridwar data
+#'Imports Julo data
 #' @param analytics_path Define path of analytics EXCEL spreadsheet to be
-#' imported (default: system.file(file.path("shiny/haridwar/data",
+#' imported (default: system.file(file.path("shiny/julo/data",
 #' "analytics.xlsx"),
 #' package = "aquanes.report"))
 #' @param operation_mySQL_conf column name pattern for identifying raw data
-#' (default: system.file("shiny/haridwar/.my.cnf", package = "aquanes.report"))
+#' (default: system.file("shiny/julo/.my.cnf", package = "aquanes.report"))
 #' @param operation_meta_path path to table with meta data for operational
-#' parameters (default: system.file(file.path("shiny/haridwar/data",
+#' parameters (default: system.file(file.path("shiny/julo/data",
 #' "operation_parameters.csv"), package = "aquanes.report"))
 #' @param excludedSheets all sheets, which are not listed here will be imported
 #' as lab data sheets (default: c("Parameters", "Location", "Sites", "#Summary",
@@ -15,7 +15,7 @@
 #' @param skip number of rows to skip for each lab data sheet (default: 69), i.e.
 #' for all sheets which are not explictly excluded with parameter "excludedSheets"
 #' @param debug if TRUE print debug messages (default: TRUE)
-#' @return returns data frame with Haridwar raw data (operation & analytics)
+#' @return returns data frame with Julo raw data (operation & analytics)
 #' @import readxl
 #' @import tidyr
 #' @import dplyr
@@ -68,7 +68,7 @@ import_data_julo <- function(analytics_path = system.file(file.path("shiny",
 ###############################################################################
 ###############################################################################
 ###############################################################################
-#### Site 1: Haridwar
+#### Site 1: julo
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -108,7 +108,7 @@ if (debug) print("### Step 2: Import operational data ##########################
 
 #### 2.1) Import
 
-operation <- import_operation(mysql_conf = operation_mySQL_conf)
+operation <- import_operation_julo(mysql_conf = operation_mySQL_conf)
 
 
 if (debug) print("### Step 3: Standardise analytics & operational data ##########################")
@@ -158,7 +158,7 @@ operation_list <- operation_list %>%
 
 
 
-haridwar_raw_list <- plyr::rbind.fill(operation_list, analytics_4015) %>%
+julo_raw_list <- plyr::rbind.fill(operation_list, analytics_4015) %>%
                      dplyr::filter_("!is.na(ParameterValue)") %>%
                      dplyr::mutate_("SiteName_ParaName_Unit" = "ifelse(test = ParameterName == 'Redox potential' & SiteName == 'Tank water',
                                      sprintf('%s: %s %d (%s)', SiteName, ParameterName, measurementID, ParameterUnit),
@@ -166,5 +166,5 @@ haridwar_raw_list <- plyr::rbind.fill(operation_list, analytics_4015) %>%
                                     "measurementID" = "ifelse(test = ParameterName == 'Redox potential' & SiteName == 'Tank water',
                                      1, measurementID)")
 
-return(haridwar_raw_list)
+return(julo_raw_list)
 }

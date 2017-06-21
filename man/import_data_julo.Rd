@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_data_julo.R
 \name{import_data_julo}
 \alias{import_data_julo}
-\title{Imports Haridwar data}
+\title{Imports Julo data}
 \usage{
 import_data_julo(analytics_path = system.file(file.path("shiny",
   "julo/data/analytics.xlsx"), package = "aquanes.report"),
@@ -16,15 +16,15 @@ import_data_julo(analytics_path = system.file(file.path("shiny",
 }
 \arguments{
 \item{analytics_path}{Define path of analytics EXCEL spreadsheet to be
-imported (default: system.file(file.path("shiny/haridwar/data",
+imported (default: system.file(file.path("shiny/julo/data",
 "analytics.xlsx"),
 package = "aquanes.report"))}
 
 \item{operation_mySQL_conf}{column name pattern for identifying raw data
-(default: system.file("shiny/haridwar/.my.cnf", package = "aquanes.report"))}
+(default: system.file("shiny/julo/.my.cnf", package = "aquanes.report"))}
 
 \item{operation_meta_path}{path to table with meta data for operational
-parameters (default: system.file(file.path("shiny/haridwar/data",
+parameters (default: system.file(file.path("shiny/julo/data",
 "operation_parameters.csv"), package = "aquanes.report"))}
 
 \item{excludedSheets}{all sheets, which are not listed here will be imported
@@ -38,8 +38,8 @@ for all sheets which are not explictly excluded with parameter "excludedSheets"}
 \item{debug}{if TRUE print debug messages (default: TRUE)}
 }
 \value{
-returns data frame with Haridwar raw data (operation & analytics)
+returns data frame with Julo raw data (operation & analytics)
 }
 \description{
-Imports Haridwar data
+Imports Julo data
 }
