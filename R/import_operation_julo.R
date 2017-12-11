@@ -46,52 +46,15 @@ sumewa <- src_mysql_from_cnf(dbname = "sumewa",
                     dir = mysql_conf)
 
 
-tbl_live <- dplyr::tbl(sumewa, "live") %>%
+operation <- dplyr::tbl(sumewa, "live") %>%
   dplyr::filter_(~AnlagenID == 4015) %>%
-  dplyr::rename_("Redox_Out1" = "Red1","Redox_Out2" = "Red2") %>%
-  dplyr::tbl_df()
-
-tbl_india <- dplyr::tbl(sumewa, "indienmesssystem") %>%
-  dplyr::filter_(~AnlagenID == 9999) %>%
-  dplyr::select_(~id,
-                 ~AnlagenID,
-                 ~time,
-                 ~Red2,
-                 ~Flux,
-                 ~Uz,
-                 ~Up,
-                 ~Iz,
-                 ~Anlauf,
-                 ~modus,
-                 ~errcode,
-                 ~err,
-                 ~ext,
-                 ~maintenance,
-                 ~Filterbetrieb,
-                 ~Filterpumpe,
-                 ~BB,
-                 ~CC,
-                 ~err_sdcard,
-                 ~err_modem) %>%
-  dplyr::rename_("Redox_In" = "Red2",
-                 "Pressure1" = "Flux",
-                 "Pressure2" = "Uz",
-                 "DiffPressure" = "Iz",
-                 "H20Head" = "Up") %>%
-  dplyr::tbl_df()
-
-
-
-tbl_tmp <- plyr::rbind.fill(tbl_live, tbl_india)
-
-
-duplicated_datetimes <- names(which(table(tbl_tmp$time) != 1))
-
-operation <- tbl_tmp[!tbl_tmp$time %in% duplicated_datetimes,] %>%
-             left_join(data.frame(AnlagenID = c(9999,4015),
-                                   LocationName = rep("Haridwar",2))) %>%
-             dplyr::rename_("DateTime" = "time") %>%
-             dplyr::mutate_("DateTime" = "as.POSIXct(DateTime,tz = 'UTC')")
+  dplyr::rename_("Redox_Out1" = "Red1",
+                 "Redox_Out2" = "Red2",
+                 "DateTime" = "time") %>%
+  dplyr::mutate_("DateTime" = "as.POSIXct(DateTime,tz = 'UTC')") %>%
+  left_join(data.frame(AnlagenID = 4015,
+                       LocationName = "Julo")) %>%
+  dplyr::tbl_df()            
 
 return(operation)
 }
@@ -105,7 +68,6 @@ operation <- import_operation()
 ### Calculate additional parameters:
 operation <- operation  %>%
     dplyr::mutate_(Redox_Out = "(Redox_Out1+Redox_Out2)/2",
-                   Redox_Diff = "Redox_Out - Redox_In",
                    Power_pump = "Up*Ip",
                    Power_cell = "Uz*Iz",
                    Pump_WhPerCbm = "Power_pump/Flux/1000",
@@ -124,7 +86,7 @@ operation_grouped <- kwb.base::hsGroupByInterval(data = operation %>%
 ### Plot it
 pdf(file = "report/datenanalyse_julo.pdf", width = 7, height = 5)
 
-operation_grouped_tidy1 <- tidyr::gather(operation_grouped[,c("DateTime", "Redox_Out1", "Redox_Out2", "Redox_In")],
+operation_grouped_tidy1 <- tidyr::gather(operation_grouped[,c("DateTime", "Redox_Out1", "Redox_Out2")],
                                        key = "Parameter",
                                        value = "Value", -DateTime)
 
@@ -136,7 +98,7 @@ p1 <- ggplot(data = operation_grouped_tidy1, aes(x = DateTime, y = Value, col = 
 print(p1)
 
 
-operation_grouped_tidy2 <- tidyr::gather(operation_grouped[,c("DateTime", "Redox_Out", "Redox_In")],
+operation_grouped_tidy2 <- tidyr::gather(operation_grouped[,c("DateTime", "Redox_Out")],
                                        key = "Parameter",
                                        value = "Value", -DateTime)
 
@@ -146,16 +108,6 @@ p2 <- ggplot(data = operation_grouped_tidy2, aes(x = DateTime, y = Value, col = 
   theme_bw() +
   theme(legend.position = "top")
 print(p2)
-
-p3 <- ggplot(data = operation %>% select(DateTime, Redox_Diff), aes(x = DateTime, y = Redox_Diff)) +
-  geom_point() +
-  #geom_vline()
-  labs(list(x = "Datetime (UTC)",
-            y = "Redox potential difference: cell outflow - inflow (mV)")) +
-  theme_bw() +
-  theme(legend.position = "top")
-print(p3)
-
 
 backwash <- operation[operation$Anlauf == 90,"DateTime"]
 
