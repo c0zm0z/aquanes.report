@@ -1,46 +1,10 @@
-#'Helper function: store MySQL database credentials in ".my.cnf"
-#'
-#' @param dbname name of database to be accessed
-#' @param group name of group
-#' @param dir path to the MySQL configuration file (default: file.path(getwd(),
-#' ".my.cnf"))
-#' @param host hostname of MySQL database (default: NULL)
-#' @param user username of MySQL database (default: NULL)
-#' @param password password of MySQL database (default: NULL)
-#' @param ... further arguments passed to dplyr::src_mysql()
-#' @return sets dplyr::src_mysql to work with MySQL config file
-#' @import dplyr
-#' @importFrom plyr rbind.fill
-#' @keywords internal
-src_mysql_from_cnf <- function(dbname,
-                               group = NULL,
-                               dir=file.path(getwd(),".my.cnf"),
-                               host=NULL,
-                      user=NULL,
-                      password=NULL,
-                      ...) {
-
-  dir <- normalizePath(dir)
-  if(!(file.exists(dir))) {
-    stop(sprintf("No such file '%s'",dir)) }
-  dplyr::src_mysql(
-    dbname,
-    group = group,
-    default.file = dir,
-    # explicitly passing null unless otherwise specified.
-    host = host,
-    user = user,
-    password = password,
-    ...)
-}
-
-#'Imports operational data
+#'Imports operational data for Julo
 #'
 #' @param mysql_conf path to the MySQL configuration file
 #' @return returns data frame operational data from MySQL db
 #' @import dplyr
 #' @export
-import_operation <- function(mysql_conf = file.path(getwd(),".my.cnf")) {
+import_operation_julo <- function(mysql_conf = file.path(getwd(),".my.cnf")) {
 sumewa <- src_mysql_from_cnf(dbname = "sumewa",
                     group = "autarcon",
                     dir = mysql_conf)

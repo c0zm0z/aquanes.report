@@ -42,7 +42,7 @@ thresholds <- aquanes.report::get_thresholds()
 if (params$run_as_standalone) {
   
 ### Raw data
-dat <- aquanes.report::import_data_haridwar()
+dat <- aquanes.report::import_data_julo()
 
 conf_template <- aquanes.report::report_config_template(df = dat,
                                        temporal_aggregation = "raw", 
