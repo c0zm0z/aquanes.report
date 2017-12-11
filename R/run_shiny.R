@@ -30,7 +30,7 @@ run_app <- function(siteName = "haridwar",
     stop(msg, call. = FALSE)
   }
 
-  if (siteName %in% c("haridwar","julo") {
+  if (siteName %in% c("haridwar","julo")) {
   mySQL_conf_path <- file.path(appDir, ".my.cnf")
 
   if (use_live_data) {
